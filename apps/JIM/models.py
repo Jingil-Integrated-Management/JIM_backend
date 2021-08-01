@@ -13,7 +13,7 @@ class Client(models.Model):
 
 
 class Drawing(models.Model):
-    id = models.CharField(max_length=256, primary_key=True)
+    name = models.CharField(max_length=256, primary_key=True)
     created_at = models.DateField(default=datetime.date.today())
 
     def __str__(self):
