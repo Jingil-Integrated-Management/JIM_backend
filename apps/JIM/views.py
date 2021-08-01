@@ -10,5 +10,5 @@ class ClientListCreateAPIView(ListCreateAPIView):
 
 
 class UnitListCreateAPIView(ListCreateAPIView):
-    queryset = Unit.objects.all()
     serializer_class = UnitSerializer
+    queryset = Unit.objects.all()
