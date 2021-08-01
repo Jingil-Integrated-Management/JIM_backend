@@ -11,13 +11,13 @@ def load(path, worksheet):
 
 def parse():
 
-    worksheets = [
-        '18. Locking Block',
-        '18. Adjustment Plate',
-        '19. Slide Guide Base',
-        '20. Slide Guide Rail',
-        '26. Inter Lock'
-    ]
+    CNT = 0  # Just for temporary usage
+    worksheets = ['18. Locking Block',
+                  '18. Adjustment Plate',
+                  '19. Slide Guide Base',
+                  '20. Slide Guide Rail',
+                  '26. Inter Lock'
+                  ]
 
     for ws in worksheets:
         data = load('data.xlsx', ws)
@@ -61,9 +61,13 @@ def parse():
                         contact=None
                     )
 
-                    Unit.objects.create(
-                        drawing=None,
+                    drawing = Drawing.objects.create(
+                        name=CNT,
                         client=client_obj,
+                    )
+                    CNT += 1
+                    Unit.objects.create(
+                        drawing=drawing,
                         division=div_obj,
                         x=x, y=y, z=z,
                         price=price,

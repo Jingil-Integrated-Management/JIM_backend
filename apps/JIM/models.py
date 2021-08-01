@@ -15,6 +15,8 @@ class Client(models.Model):
 class Drawing(models.Model):
     name = models.CharField(max_length=256, primary_key=True)
     created_at = models.DateField(default=datetime.date.today())
+    client = models.ForeignKey(
+        Client, on_delete=models.CASCADE, related_name='drawing')
 
     def __str__(self):
         return self.id
@@ -41,7 +43,6 @@ class Unit(models.Model):
 
     drawing = models.ForeignKey(
         Drawing, on_delete=models.CASCADE, null=True, blank=True)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
 
     x = models.CharField(max_length=256)
