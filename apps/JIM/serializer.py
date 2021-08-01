@@ -1,12 +1,25 @@
 from rest_framework import serializers
-from rest_framework.fields import SerializerMethodField
-from .models import Client, Unit
+from .models import Client, Unit,  Division, Drawing
 
 
 class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
+        fields = '__all__'
+
+
+class DivisionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Division
+        fields = '__all__'
+
+
+class DrawingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Drawing
         fields = '__all__'
 
 
