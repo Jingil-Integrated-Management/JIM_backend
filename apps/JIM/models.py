@@ -1,5 +1,7 @@
 from django.db import models
 
+import datetime
+
 
 class Client(models.Model):
     name = models.CharField(max_length=256)
@@ -12,7 +14,7 @@ class Client(models.Model):
 
 class Drawing(models.Model):
     id = models.CharField(max_length=256, primary_key=True)
-    created_at = models.DateField()
+    created_at = models.DateField(default=datetime.date.today())
 
     def __str__(self):
         return self.id
