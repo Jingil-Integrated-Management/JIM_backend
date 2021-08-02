@@ -20,7 +20,7 @@ class UnitListCreateAPIView(ListCreateAPIView):
     serializer_class = UnitSerializer
     queryset = Unit.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['division', 'client']
+    filterset_fields = ['division', 'drawing__client']
 
 
 class DrawingListCreateAPIView(ListCreateAPIView):

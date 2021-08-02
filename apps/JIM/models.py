@@ -19,7 +19,7 @@ class Drawing(models.Model):
         Client, on_delete=models.CASCADE, related_name='drawing')
 
     def __str__(self):
-        return self.id
+        return self.name
 
 
 class Division(models.Model):
@@ -54,4 +54,4 @@ class Unit(models.Model):
         max_length=256, choices=MATERIAL_CHOICES, default='SKS3')
 
     def __str__(self):
-        return self.client.name + ' ' + str(self.division)
+        return self.drawing.client.name + ' ' + str(self.division)
