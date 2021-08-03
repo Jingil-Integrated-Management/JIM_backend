@@ -53,5 +53,7 @@ class Unit(models.Model):
     material = models.CharField(
         max_length=256, choices=MATERIAL_CHOICES, default='SKS3')
 
+    comment = models.TextField(default=None, null=True, blank=True)
+
     def __str__(self):
         return self.drawing.client.name + ' ' + str(self.division)
