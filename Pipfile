@@ -8,6 +8,7 @@ django = "*"
 djangorestframework = "*"
 openpyxl = "*"
 django-filter = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 pycodestyle = "*"
