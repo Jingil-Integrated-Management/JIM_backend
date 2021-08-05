@@ -19,7 +19,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
 
-    'apps.JIM',
+    'apps.Client',
+    'apps.Division',
+    'apps.Drawing',
+    'apps.Part'
 ]
 
 REST_FRAMEWORK = {

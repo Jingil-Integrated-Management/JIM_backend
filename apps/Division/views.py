@@ -4,32 +4,9 @@ from rest_framework.status import (
     HTTP_201_CREATED as _201,
     HTTP_400_BAD_REQUEST as _400)
 
-from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializer import (ClientSerializer, UnitSerializer,
-                         DivisionSerializer, DrawingSerializer)
-from .models import Client, Unit, Division, Drawing
-
-
-class ClientListCreateAPIView(ListCreateAPIView):
-    queryset = Client.objects.all()
-    serializer_class = ClientSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name']
-
-
-class UnitListCreateAPIView(ListCreateAPIView):
-    serializer_class = UnitSerializer
-    queryset = Unit.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['division', 'drawing__client']
-
-
-class DrawingListCreateAPIView(ListCreateAPIView):
-    serializer_class = DrawingSerializer
-    queryset = Drawing.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name', 'client']
+from .serializers import DivisionSerializer
+from .models import Division
 
 
 class DivisionListCreateAPIView(ListCreateAPIView):
