@@ -1,4 +1,5 @@
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import (ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -11,3 +12,9 @@ class PartListCreateAPIView(ListCreateAPIView):
     queryset = Part.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['division', 'drawing__client']
+
+
+class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PartSerializer
+    queryset = Part.objects.all()
+    lookup_url_kwarg = 'part_pk'
