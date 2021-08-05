@@ -1,5 +1,4 @@
 .idea
 .vscode
-data.xlsx
 db.sqlite3
 .DS_Store

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class JimConfig(AppConfig):
+class DrawingConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.JIM'
+    name = 'apps.Drawing'

@@ -7,10 +7,12 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 openpyxl = "*"
+django-filter = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 pycodestyle = "*"
 autopep8 = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.8"
