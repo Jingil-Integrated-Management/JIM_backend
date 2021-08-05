@@ -13,7 +13,7 @@ class Part(models.Model):
     ]
 
     drawing = models.ForeignKey(
-        Drawing, on_delete=models.CASCADE, null=True, blank=True)
+        Drawing, on_delete=models.CASCADE, null=True, blank=True, related_name='parts')
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
 
     x = models.CharField(max_length=256)
