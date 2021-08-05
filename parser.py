@@ -1,6 +1,9 @@
-from apps.JIM.models import Division
 from openpyxl import load_workbook
-from .models import Client, Drawing, Division, Unit
+
+from apps.Client.models import Client
+from apps.Division.models import Division
+from apps.Drawing.models import Drawing
+from apps.Part.models import Part
 
 
 def load(path, worksheet):
@@ -66,7 +69,7 @@ def parse():
                         client=client_obj,
                     )
                     CNT += 1
-                    Unit.objects.create(
+                    Part.objects.create(
                         drawing=drawing,
                         division=div_obj,
                         x=x, y=y, z=z,
