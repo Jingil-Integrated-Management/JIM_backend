@@ -14,6 +14,7 @@ def load(path, worksheet):
 
 def parse():
 
+    tmp_drawing = 'SW-'
     CNT = 0  # Just for temporary usage
     worksheets = ['18. Locking Block',
                   '18. Adjustment Plate',
@@ -65,7 +66,7 @@ def parse():
                     )
 
                     drawing = Drawing.objects.create(
-                        name=CNT,
+                        name=tmp_drawing + '%05d' % CNT,
                         client=client_obj,
                     )
                     CNT += 1
