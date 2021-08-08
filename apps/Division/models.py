@@ -10,3 +10,6 @@ class Division(models.Model):
     def __str__(self):
         sub_div = '-' + str(self.sub_division) if self.sub_division else ''
         return '{}{} / {}'.format(self.main_division, sub_div, self.name)
+
+    def get_full_division(self):
+        return self.__str__()
