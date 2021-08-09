@@ -23,14 +23,13 @@ class DivisionListCreateAPIView(ListCreateAPIView):
             queryset = Division.objects.all()
 
         return queryset.distinct().order_by(
-            'main_division', 'name', 'sub_division')
+            'name', 'code')
 
     def create(self, request, *args, **kwargs):
 
         obj = Division.objects.filter(
             name=request.data.get('name', None),
-            main_division=request.data.get('main_division', None),
-            sub_division=request.data.get('sub_division', None)
+            code=request.data.get('code', None),
         )
         if obj:
             request.data['message'] = 'This division already exists!'
