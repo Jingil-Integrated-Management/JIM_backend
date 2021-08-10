@@ -9,6 +9,7 @@ djangorestframework = "*"
 openpyxl = "*"
 django-filter = "*"
 django-cors-headers = "*"
+google-cloud-storage = "*"
 
 [dev-packages]
 pycodestyle = "*"
