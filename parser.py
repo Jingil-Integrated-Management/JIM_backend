@@ -14,6 +14,7 @@ def load(path, worksheet):
 
 def parse():
 
+    tmp_drawing = 'SW-'
     CNT = 0  # Just for temporary usage
     worksheets = ['18. Locking Block',
                   '18. Adjustment Plate',
@@ -38,14 +39,9 @@ def parse():
                 z = row[2].value
                 material = row[3].value
                 price = row[4].value
-                division = str(row[5].value).split('-')
+                division = row[5].value
                 division_name = row[6].value
                 client = row[7].value
-
-                try:
-                    subdivision = int(division[1])
-                except:
-                    subdivision = None
 
                 if x:
 
@@ -54,8 +50,7 @@ def parse():
 
                     div_obj, created = Division.objects.get_or_create(
                         name=division_name,
-                        main_division=int(float(division[0])),
-                        sub_division=subdivision
+                        code=division
                     )
 
                     client_obj, created = Client.objects.get_or_create(
@@ -65,7 +60,7 @@ def parse():
                     )
 
                     drawing = Drawing.objects.create(
-                        name=CNT,
+                        name=tmp_drawing + '%05d' % CNT,
                         client=client_obj,
                     )
                     CNT += 1
