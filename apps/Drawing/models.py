@@ -9,6 +9,7 @@ class Drawing(models.Model):
     created_at = models.DateField(default=datetime.date.today)
     client = models.ForeignKey(
         Client, on_delete=models.SET_NULL, related_name='drawing', null=True)
+    file_type = models.CharField(max_length=256, default='dwg')
 
     def __str__(self):
         return self.name
