@@ -13,3 +13,6 @@ class Drawing(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_file(self):
+        return self.name+'.'+self.file_type
