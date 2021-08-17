@@ -3,8 +3,5 @@ from .base_settings import *
 import os
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG = False  # TODO False on actual production
-ALLOWED_HOSTS = ['34.64.103.154']
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-APPEND_SLASH = False
+DEBUG = True  # TODO False on actual production
+ALLOWED_HOSTS = ['34.64.103.154', 'jim-backend.duckdns.org']
