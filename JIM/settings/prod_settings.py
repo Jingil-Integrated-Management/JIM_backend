@@ -4,7 +4,7 @@ import os
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True  # TODO False on actual production
-ALLOWED_HOSTS = ['34.64.103.154']
+ALLOWED_HOSTS = ['34.64.103.154', 'jim-backend.duckdns.org']
 # SECURE_SSL_REDIRECT = True
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
