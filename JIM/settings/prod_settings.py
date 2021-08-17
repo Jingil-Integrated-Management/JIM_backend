@@ -5,6 +5,6 @@ import os
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False  # TODO False on actual production
 ALLOWED_HOSTS = ['34.64.103.154']
-SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+APPEND_SLASH = False
