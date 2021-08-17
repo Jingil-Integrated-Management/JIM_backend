@@ -4,4 +4,4 @@ import os
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True  # TODO False on actual production
-ALLOWED_HOSTS = ['34.64.175.67']
+ALLOWED_HOSTS = ['34.64.103.154']
