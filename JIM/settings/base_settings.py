@@ -23,7 +23,8 @@ INSTALLED_APPS = [
     'apps.Client',
     'apps.Division',
     'apps.Drawing',
-    'apps.Part'
+    'apps.Part',
+    'apps.Utils'
 ]
 
 REST_FRAMEWORK = {

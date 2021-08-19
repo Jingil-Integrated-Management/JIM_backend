@@ -24,7 +24,7 @@ def parse():
                   ]
 
     for ws in worksheets:
-        data = load('data.xlsx', ws)
+        data = load('apps/Utils/data.xlsx', ws)
 
         first_row = False
         for row in data.rows:
