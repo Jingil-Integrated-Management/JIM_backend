@@ -5,6 +5,7 @@ from rest_framework.generics import (
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST as _400
+from rest_framework import filters
 
 from django_filters.rest_framework import DjangoFilterBackend
 from django.core.files.storage import FileSystemStorage
@@ -18,8 +19,9 @@ from .models import Drawing
 class DrawingListCreateAPIView(ListCreateAPIView):
     serializer_class = DrawingSerializer
     queryset = Drawing.objects.all()
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['name', 'client']
+    search_fields = ['name', 'client__name']
 
 
 class DrawingRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):

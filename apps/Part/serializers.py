@@ -4,11 +4,11 @@ from .models import Part
 
 
 class PartSerializer(serializers.ModelSerializer):
-    division_name = CharField(source='division.get_full_division')
-    drawing_name = CharField(source='drawing.name', required=False)
-    created_at = CharField(source='drawing.created_at')
+    division_name = CharField(
+        source='division.get_full_division', read_only=True)
+    drawing_file = CharField(source='drawing.get_file', read_only=True)
+    created_at = CharField(source='drawing.created_at', read_only=True)
 
     class Meta:
         model = Part
-        fields = ('id', 'x', 'y', 'z', 'price', 'material', 'comment',
-                  'material', 'division_name', 'drawing_name', 'created_at')
+        fields = '__all__'

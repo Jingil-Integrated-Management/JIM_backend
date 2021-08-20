@@ -24,7 +24,7 @@ def parse():
                   ]
 
     for ws in worksheets:
-        data = load('data.xlsx', ws)
+        data = load('apps/Utils/data.xlsx', ws)
 
         first_row = False
         for row in data.rows:
@@ -48,15 +48,13 @@ def parse():
                     print('{},{},{} - {}W {}'.format(x,
                           y, z, price, division_name))
 
+                    client_obj, created = Client.objects.get_or_create(
+                        name=client)
+
                     div_obj, created = Division.objects.get_or_create(
                         name=division_name,
-                        code=division
-                    )
-
-                    client_obj, created = Client.objects.get_or_create(
-                        name=client,
-                        address=None,
-                        contact=None
+                        code=division,
+                        client=client_obj
                     )
 
                     drawing = Drawing.objects.create(
@@ -69,7 +67,8 @@ def parse():
                         division=div_obj,
                         x=x, y=y, z=z,
                         price=price,
-                        material=material
+                        material=material,
+                        client=client_obj
                     )
 
             except IndexError:

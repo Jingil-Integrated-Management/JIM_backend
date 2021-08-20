@@ -23,11 +23,13 @@ INSTALLED_APPS = [
     'apps.Client',
     'apps.Division',
     'apps.Drawing',
-    'apps.Part'
+    'apps.Part',
+    'apps.Utils'
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20
 }
 
@@ -100,7 +102,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'uploads'
