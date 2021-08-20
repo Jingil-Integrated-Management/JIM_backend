@@ -17,8 +17,7 @@ class DivisionListCreateAPIView(ListCreateAPIView):
     def get_queryset(self):
         query_param = self.request.query_params.get('client', None)
         if query_param:
-            queryset = Division.objects.filter(
-                part__drawing__client=query_param)
+            queryset = Division.objects.filter(client=query_param)
         else:
             queryset = Division.objects.all()
 
@@ -51,8 +50,7 @@ class DivisionUpdateAPIView(UpdateAPIView):
 
         obj = Division.objects.filter(
             name=request.data.get('name', None),
-            main_division=request.data.get('main_division', None),
-            sub_division=request.data.get('sub_division', None)
+            code=request.data.get('code', None),
         )
 
         if obj:
