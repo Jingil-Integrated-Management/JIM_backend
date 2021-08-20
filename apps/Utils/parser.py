@@ -3,7 +3,7 @@ from openpyxl import load_workbook
 from apps.Client.models import Client
 from apps.Division.models import Division
 from apps.Drawing.models import Drawing
-from apps.Part.models import Part
+from apps.Part.models import Part, OS_Part
 
 
 def load(path, worksheet):
@@ -58,7 +58,7 @@ def parse():
 
                     div_obj, created = Division.objects.get_or_create(
                         main_division=main_division,
-                        sub_division=sub_division
+                        sub_division=sub_division,
                         client=client_obj
                     )
 
@@ -67,13 +67,29 @@ def parse():
                         client=client_obj,
                     )
                     CNT += 1
-                    Part.objects.create(
-                        drawing=drawing,
-                        division=div_obj,
-                        x=x, y=y, z=z,
-                        price=price,
-                        material=material
-                    )
+
+                    if material_price and milling_price and heat_treat_price:
+                        OS_Part.objects.create(
+                            drawing=drawing,
+                            division=div_obj,
+                            x=x, y=y, z=z,
+                            price=price,
+                            material=material,
+                            client=client_obj,
+                            material_price=material_price,
+                            milling_price=milling_price,
+                            heat_treat_price=heat_treat_price
+                        )
+
+                    else:
+                        Part.objects.create(
+                            drawing=drawing,
+                            division=div_obj,
+                            x=x, y=y, z=z,
+                            price=price,
+                            material=material,
+                            client=client_obj
+                        )
 
             except IndexError:
                 pass
