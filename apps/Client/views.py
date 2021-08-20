@@ -12,6 +12,7 @@ class ClientListCreateAPIView(ListCreateAPIView):
     serializer_class = ClientSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name']
+    pagination_class = None
 
 
 class ClientRetrieveUpdateAPIView(RetrieveUpdateDestroyAPIView):
