@@ -39,24 +39,27 @@ def parse():
                 z = row[2].value
                 material = row[3].value
                 price = row[4].value
-                division = row[5].value
-                division_name = row[6].value
-                client = row[7].value
+                main_division = row[5].value
+                sub_division = row[6].value
+                drawing = row[7].value
+                client = row[8].value
+                material_price = row[9].value
+                milling_price = row[10].value
+                heat_treat_price = row[11].value
 
                 if x:
 
                     print('{},{},{} - {}W {}'.format(x,
-                          y, z, price, division_name))
-
-                    div_obj, created = Division.objects.get_or_create(
-                        name=division_name,
-                        code=division
-                    )
+                          y, z, price, drawing))
 
                     client_obj, created = Client.objects.get_or_create(
-                        name=client,
-                        address=None,
-                        contact=None
+                        name=client
+                    )
+
+                    div_obj, created = Division.objects.get_or_create(
+                        main_division=main_division,
+                        sub_division=sub_division
+                        client=client_obj
                     )
 
                     drawing = Drawing.objects.create(
