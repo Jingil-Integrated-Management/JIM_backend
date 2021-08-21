@@ -9,8 +9,8 @@ class Part(models.Model):
 
     MATERIAL_CHOICES = [
         ('SKS3', 'SKS3'),
-        ('SKD61', 'SKD61'),
-        ('KP1', 'KP1'),
+        ('KP4', 'KP4'),
+        ('SKD61', 'SKD61')
     ]
 
     drawing = models.ForeignKey(
@@ -27,6 +27,12 @@ class Part(models.Model):
         max_length=256, choices=MATERIAL_CHOICES, default='SKS3')
 
     comment = models.TextField(default=None, null=True, blank=True)
+
+    material_price = models.CharField(max_length=256, default=None, null=True)
+    milling_price = models.CharField(max_length=256, default=None, null=True)
+    heat_treat_price = models.CharField(
+        max_length=256, default=None, null=True)
+    wire_price = models.CharField(max_length=256, default=None, null=True)
 
     def __str__(self):
         return self.drawing.client.name + ' ' + str(self.division)
