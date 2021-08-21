@@ -4,6 +4,8 @@ from apps.Drawing.models import Drawing
 from apps.Division.models import Division
 from apps.Client.models import Client
 
+from model_utils.managers import InheritanceManager
+
 
 class Part(models.Model):
 
@@ -28,6 +30,8 @@ class Part(models.Model):
 
     comment = models.TextField(default=None, null=True, blank=True)
 
+    objects = InheritanceManager()
+
     def __str__(self):
         return self.drawing.client.name + ' ' + str(self.division)
 
@@ -36,3 +40,4 @@ class OS_Part(Part):
     material_price = models.CharField(max_length=256)
     milling_price = models.CharField(max_length=256)
     heat_treat_price = models.CharField(max_length=256)
+    wire_price = models.CharField(max_length=256)

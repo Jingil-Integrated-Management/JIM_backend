@@ -48,6 +48,7 @@ def parse():
             material_price = _get(row, 9)
             milling_price = _get(row, 10)
             heat_treat_price = _get(row, 11)
+            wire_price = _get(row, 12)
 
             if not main_division:
                 continue
@@ -90,7 +91,8 @@ def parse():
                         client=client_obj,
                         material_price=int(material_price),
                         milling_price=int(milling_price),
-                        heat_treat_price=int(heat_treat_price)
+                        heat_treat_price=int(heat_treat_price),
+                        wire_price=int(wire_price)
                     )
 
                 else:
