@@ -9,7 +9,7 @@ ALLOWED_HOSTS = ['34.64.103.154', 'jim-backend.duckdns.org']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jim-backend',
+        'NAME': 'jim_backend',
         'USER': 'postgres',
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': '34.64.207.136',
