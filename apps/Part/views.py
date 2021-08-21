@@ -11,7 +11,8 @@ class PartListCreateAPIView(ListCreateAPIView):
     serializer_class = PartSerializer
     queryset = Part.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['division', 'client']
+    filterset_fields = ['division__main_division',
+                        'division__sub_division', 'client']
 
 
 class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
