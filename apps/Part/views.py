@@ -9,7 +9,7 @@ from .models import Part
 
 class PartListCreateAPIView(ListCreateAPIView):
     serializer_class = PartSerializer
-    queryset = Part.objects.all()
+    queryset = Part.objects.all().order_by('drawing__created_at')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['division__main_division',
                         'division__sub_division', 'client']
