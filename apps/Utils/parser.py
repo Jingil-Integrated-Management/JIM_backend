@@ -3,7 +3,7 @@ from openpyxl import load_workbook
 from apps.Client.models import Client
 from apps.Division.models import Division
 from apps.Drawing.models import Drawing
-from apps.Part.models import Part, OS_Part
+from apps.Part.models import Part
 
 
 def _get(data, index):
@@ -81,29 +81,22 @@ def parse():
                     )
                     CNT += 1
 
-                if material_price and milling_price and heat_treat_price:
-                    OS_Part.objects.create(
-                        drawing=drawing,
-                        division=div_obj,
-                        x=x, y=y, z=z,
-                        price=int(price),
-                        material=material,
-                        client=client_obj,
-                        material_price=int(material_price),
-                        milling_price=int(milling_price),
-                        heat_treat_price=int(heat_treat_price),
-                        wire_price=int(wire_price)
-                    )
-
-                else:
-                    Part.objects.create(
-                        drawing=drawing,
-                        division=div_obj,
-                        x=x, y=y, z=z,
-                        price=int(price),
-                        material=material,
-                        client=client_obj
-                    )
+                Part.objects.create(
+                    drawing=drawing,
+                    division=div_obj,
+                    x=x, y=y, z=z,
+                    price=int(price),
+                    material=material,
+                    client=client_obj,
+                    material_price=int(
+                        material_price) if material_price else None,
+                    milling_price=int(
+                        milling_price) if milling_price else None,
+                    heat_treat_price=int(
+                        heat_treat_price) if heat_treat_price else None,
+                    wire_price=int(
+                        wire_price) if wire_price else None
+                )
 
 
 parse()

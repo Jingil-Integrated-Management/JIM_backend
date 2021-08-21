@@ -14,7 +14,7 @@ class DivisionListCreateAPIView(ListCreateAPIView):
     serializer_class = DivisionSerializer
     queryset = Division.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['client']
+    filterset_fields = ['client', 'main_division', 'sub_division']
     pagination_class = None
 
     def get_queryset(self):

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.fields import CharField
-from .models import Part, OS_Part
+from .models import Part
 
 
 class PartSerializer(serializers.ModelSerializer):
@@ -11,11 +11,4 @@ class PartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Part
-        fields = '__all__'
-
-
-class OS_PartSerializer(PartSerializer):
-
-    class Meta:
-        model = OS_Part
         fields = '__all__'

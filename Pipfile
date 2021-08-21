@@ -10,7 +10,6 @@ openpyxl = "*"
 django-filter = "*"
 django-cors-headers = "*"
 google-cloud-storage = "*"
-django-model-utils = "*"
 
 [dev-packages]
 pycodestyle = "*"

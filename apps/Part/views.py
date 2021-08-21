@@ -3,8 +3,8 @@ from rest_framework.generics import (ListCreateAPIView,
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import OS_PartSerializer, PartSerializer
-from .models import OS_Part, Part
+from .serializers import PartSerializer
+from .models import Part
 
 
 class PartListCreateAPIView(ListCreateAPIView):
@@ -18,13 +18,3 @@ class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = PartSerializer
     queryset = Part.objects.all()
     lookup_url_kwarg = 'part_pk'
-
-
-class OSPartListCreateAPIView(PartListCreateAPIView):
-    serializer_class = OS_PartSerializer
-    queryset = OS_Part.objects.all()
-
-
-class OSPartRetrieveUpdateDestroyAPIView(PartRetrieveUpdateDestroyAPIView):
-    serializer_class = OS_PartSerializer
-    queryset = OS_Part.objects.all()
