@@ -12,9 +12,8 @@ class DrawingSerializer(serializers.ModelSerializer):
 
 
 class DrawingRetreiveUpdateSerializer(serializers.ModelSerializer):
-    part = PartSerializer(source='parts', many=True)
+    part = PartSerializer(source='parts', many=True, read_only=True)
 
     class Meta:
         model = Drawing
         fields = '__all__'
-        read_only_fields = ('part', )
