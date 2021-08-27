@@ -52,11 +52,14 @@ def parse():
 
             try:
                 main_division = int(main_division)
+            except:
+                pass
+            try:
                 sub_division = int(sub_division)
             except:
                 pass
 
-            if not main_division:
+            if not main_division or main_division == ' ':
                 continue
 
             if x:
