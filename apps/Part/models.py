@@ -36,3 +36,9 @@ class Part(models.Model):
 
     def __str__(self):
         return self.drawing.client.name + ' ' + str(self.division)
+
+    def get_type(self):
+        if self.material_price and self.milling_price and self.heat_treat_price and self.wire_price:
+            return '제작'
+        else:
+            return '연마'

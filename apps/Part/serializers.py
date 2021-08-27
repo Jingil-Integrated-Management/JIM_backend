@@ -8,6 +8,7 @@ class PartSerializer(serializers.ModelSerializer):
         source='division.get_full_division', read_only=True)
     drawing_file = CharField(source='drawing.get_file', read_only=True)
     created_at = CharField(source='drawing.created_at', read_only=True)
+    type = CharField(source='get_type', read_only=True)
 
     class Meta:
         model = Part

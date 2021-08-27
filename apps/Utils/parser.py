@@ -50,7 +50,16 @@ def parse():
             heat_treat_price = _get(row, 11)
             wire_price = _get(row, 12)
 
-            if not main_division:
+            try:
+                main_division = int(main_division)
+            except:
+                pass
+            try:
+                sub_division = int(sub_division)
+            except:
+                pass
+
+            if not main_division or main_division == ' ':
                 continue
 
             if x:
