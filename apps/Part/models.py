@@ -38,7 +38,7 @@ class Part(models.Model):
         return self.drawing.client.name + ' ' + str(self.division)
 
     def get_type(self):
-        if self.material_price and self.milling_price and self.heat_treat_price and self.wire_price:
+        if self.material_price or self.milling_price or self.heat_treat_price or self.wire_price:
             return '제작'
         else:
             return '연마'
