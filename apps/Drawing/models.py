@@ -7,6 +7,7 @@ from apps.Client.models import Client
 class Drawing(models.Model):
     name = models.CharField(max_length=256, primary_key=True)
     created_at = models.DateField(default=datetime.date.today)
+    closed_at = models.DateField(default=None, null=True, blank=True)
     client = models.ForeignKey(
         Client, on_delete=models.SET_NULL, related_name='drawing', null=True)
     file_type = models.CharField(max_length=256, default='dwg')
