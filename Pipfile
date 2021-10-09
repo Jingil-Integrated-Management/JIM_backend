@@ -12,6 +12,7 @@ django-cors-headers = "*"
 google-cloud-storage = "*"
 psycopg2 = "*"
 djangorestframework-simplejwt = "*"
+pyjwt = "~=2.1.0"
 
 [dev-packages]
 pycodestyle = "*"
