@@ -1,4 +1,4 @@
-import os
+from datetime import timedelta
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,8 +16,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_filters',
+    'rest_framework_simplejwt',
 
-    'apps.Auth',
     'apps.Client',
     'apps.Division',
     'apps.Drawing',
@@ -28,7 +28,18 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=3),
 }
 
 MIDDLEWARE = [
@@ -76,24 +87,22 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.\
-            UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+        'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.\
-            MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+        'MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.\
-            CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+        'CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.\
-            NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+        'NumericPasswordValidator',
     },
 ]
-
-AUTH_USER_MODEL = 'Auth.User'
 
 
 LANGUAGE_CODE = 'en-us'
