@@ -28,12 +28,12 @@ def parse():
 
     for ws in worksheets:
         data = load('apps/Utils/data.xlsx', ws)
-        first_row = False
+        first_row = True
 
         for row in data.rows:
 
-            if not first_row:
-                first_row = True
+            if first_row:
+                first_row = False
                 continue
 
             x = str(_get(row, 0))
