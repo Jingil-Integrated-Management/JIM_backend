@@ -1,7 +1,6 @@
 from rest_framework.generics import (ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
-
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 from .serializers import ClientSerializer
 from .models import Client
@@ -10,9 +9,8 @@ from .models import Client
 class ClientListCreateAPIView(ListCreateAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name']
-    pagination_class = None
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', ]
 
 
 class ClientRetrieveUpdateAPIView(RetrieveUpdateDestroyAPIView):
