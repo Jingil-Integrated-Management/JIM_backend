@@ -23,6 +23,14 @@ Licensed under [Apache 2.0 License](https://github.com/Jingil-Integrated-Managem
 # Execute at root directory
 # ex) /Users/therealjamesjung/JIM
 
+# If you dont have pipenv installed
+$ pip install pipenv
+
+# Install required packages
+$ pipenv install
+# Enable virtual environment
+$ pipenv shell
+
 $ sh scripts/clear_db.sh # clear existing db.sqlite
 $ sh scripts/migrate.sh # migrate
 
