@@ -8,7 +8,7 @@ class Client(models.Model):
     tel = models.CharField(max_length=128, null=True, blank=True)
     fax = models.CharField(max_length=128, null=True, blank=True)
     address = models.CharField(max_length=512, null=True, blank=True)
-    note = models.TextField()
+    note = models.TextField(null=True, blank=True)
     manager = models.CharField(max_length=128, null=True, blank=True)
     manager_tel = models.CharField(max_length=128, null=True, blank=True)
     manager_phone = models.CharField(max_length=128, null=True, blank=True)
