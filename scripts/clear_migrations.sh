@@ -1,0 +1,1 @@
+rm apps/*/migrations/0*
