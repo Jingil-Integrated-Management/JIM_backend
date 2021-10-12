@@ -1,3 +1,5 @@
+from datetime import date
+
 from openpyxl import load_workbook
 
 from apps.Client.models import Client
@@ -86,13 +88,14 @@ def parse():
                 if drawing:
                     drawing, _ = Drawing.objects.get_or_create(
                         name=drawing,
-                        client=client_obj
-                    )
+                        client=client_obj,
+                        closed_at=str(date.today()))
 
                 else:
                     drawing = Drawing.objects.create(
                         name=tmp_drawing + '%05d' % CNT,
                         client=client_obj,
+                        closed_at=str(date.today())
                     )
                     CNT += 1
 
