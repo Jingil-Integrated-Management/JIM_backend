@@ -27,7 +27,7 @@ $ sh scripts/clear_db.sh # clear existing db.sqlite
 $ sh scripts/migrate.sh # migrate
 
 # parse data from xlsx file
-# NOTE download data file to apps/Utils
+# NOTE) download data file to apps/Utils
 $ sh scripts/parse.sh 
 
 
