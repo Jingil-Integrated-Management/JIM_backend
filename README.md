@@ -30,6 +30,9 @@ $ sh scripts/migrate.sh # migrate
 # NOTE) download data file to apps/Utils
 $ sh scripts/parse.sh 
 
+# Create superuser b.c. no signup process is available
+$ python manage.py createsuperuser
+
 
 $ python manage.py runserver
 
