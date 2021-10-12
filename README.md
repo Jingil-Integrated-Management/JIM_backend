@@ -16,3 +16,24 @@
 ### Licensing
 
 Licensed under [Apache 2.0 License](https://github.com/Jingil-Integrated-Management/JIM_backend/blob/master/License.md).
+
+### Local Usage
+
+``` Shell
+# Execute at root directory
+# ex) /Users/therealjamesjung/JIM
+
+$ sh scripts/clear_db.sh # clear existing db.sqlite
+$ sh scripts/migrate.sh # migrate
+
+# parse data from xlsx file
+# NOTE download data file to apps/Utils
+$ sh scripts/parse.sh 
+
+
+$ python manage.py runserver
+
+# Django version 3.2.8, using settings 'JIM.settings.dev_settings'
+# Starting development server at http://127.0.0.1:8000/
+# Quit the server with CONTROL-C.
+```
