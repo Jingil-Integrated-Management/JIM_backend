@@ -1,10 +1,17 @@
-from rest_framework.generics import (ListCreateAPIView,
+from rest_framework import serializers
+from rest_framework.generics import (CreateAPIView,
+                                     ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import PartSerializer
-from .models import Part
+from .serializers import OutSourceSerializer, PartSerializer
+from .models import Part, OutSource
+
+
+class OutSourceCreateAPIView(CreateAPIView):
+    serializer_class = OutSourceSerializer
+    queryset = OutSource.objects.all()
 
 
 class PartListCreateAPIView(ListCreateAPIView):
