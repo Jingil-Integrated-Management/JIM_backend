@@ -29,7 +29,7 @@ def parse():
     worksheets = ['상우정밀', '성우금형(제작)']
 
     for ws in worksheets:
-        data = load('apps/Utils/JIM.xlsx', ws)
+        data = load('../apps/Utils/data.xlsx', ws)
         first_row = False
 
         for row in data.rows:

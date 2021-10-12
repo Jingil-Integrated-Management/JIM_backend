@@ -19,7 +19,7 @@ def _get(data, index):
 
 def parse():
 
-    data = load('apps/Utils/clients.xlsx', 'Sheet1')
+    data = load('../apps/Utils/clients.xlsx', 'Sheet1')
     first_row = True
 
     for row in data.rows:
