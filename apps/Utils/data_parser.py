@@ -3,13 +3,15 @@ from openpyxl import load_workbook
 from apps.Client.models import Client
 from apps.Division.models import Division
 from apps.Drawing.models import Drawing
-from apps.Part.models import Part
+from apps.Part.models import Part, Material, OutSource
 
 
 def _get(data, index):
     try:
-        return data[index].value
-
+        if data[index].value != 0:
+            return data[index].value
+        else:
+            return None
     except IndexError:
         return None
 
@@ -27,13 +29,13 @@ def parse():
     worksheets = ['상우정밀', '성우금형(제작)']
 
     for ws in worksheets:
-        data = load('apps/Utils/data.xlsx', ws)
-        first_row = True
+        data = load('apps/Utils/JIM.xlsx', ws)
+        first_row = False
 
         for row in data.rows:
 
-            if first_row:
-                first_row = False
+            if not first_row:
+                first_row = True
                 continue
 
             x = str(_get(row, 0))
@@ -46,9 +48,13 @@ def parse():
             drawing = _get(row, 7)
             client = _get(row, 8)
             material_price = _get(row, 9)
-            milling_price = _get(row, 10)
-            heat_treat_price = _get(row, 11)
-            wire_price = _get(row, 12)
+            material_client = _get(row, 10)
+            milling_price = _get(row, 11)
+            milling_client = _get(row, 12)
+            heat_treat_price = _get(row, 13)
+            heat_treat_client = _get(row, 14)
+            wire_price = _get(row, 15)
+            wire_client = _get(row, 16)
 
             try:
                 main_division = int(main_division)
@@ -90,22 +96,43 @@ def parse():
                     )
                     CNT += 1
 
+                material_client_obj = Client.objects.get(
+                    name=material_client) if material_price else None
+                milling_client_obj = Client.objects.get(
+                    name=milling_client) if milling_price else None
+                heat_treat_client_obj = Client.objects.get(
+                    name=heat_treat_client) if heat_treat_price else None
+                wire_client_obj = Client.objects.get(
+                    name=wire_client) if wire_price else None
+
+                outsource = None
+
+                if material_price or milling_price or heat_treat_price or wire_price:
+                    outsource = OutSource.objects.create(
+                        material_price=int(
+                            material_price) if material_price else None,
+                        milling_price=int(
+                            milling_price) if milling_price else None,
+                        heat_treat_price=int(
+                            heat_treat_price) if heat_treat_price else None,
+                        wire_price=int(
+                            wire_price) if wire_price else None,
+                        material_client=material_client_obj,
+                        milling_client=milling_client_obj,
+                        heat_treat_client=heat_treat_client_obj,
+                        wire_client=wire_client_obj
+                    )
+
+                material_obj, _ = Material.objects.get_or_create(
+                    name=material
+                )
+
                 Part.objects.create(
                     drawing=drawing,
                     division=div_obj,
                     x=x, y=y, z=z,
                     price=int(price),
-                    material=material,
+                    material=material_obj,
                     client=client_obj,
-                    material_price=int(
-                        material_price) if material_price else None,
-                    milling_price=int(
-                        milling_price) if milling_price else None,
-                    heat_treat_price=int(
-                        heat_treat_price) if heat_treat_price else None,
-                    wire_price=int(
-                        wire_price) if wire_price else None
+                    outsource=outsource
                 )
-
-
-parse()
