@@ -1,1 +1,1 @@
-python ../manage.py shell < ./parse.py
+python manage.py shell < scripts/parse.py
