@@ -4,16 +4,28 @@ from django.db import models
 from apps.Client.models import Client
 
 
+class File(models.Model):
+    name = models.CharField(max_length=256)
+    type = models.CharField(max_length=16)
+
+    def __str__(self):
+        return self.name
+
+
 class Drawing(models.Model):
     name = models.CharField(max_length=256)
-    created_at = models.DateField(default=datetime.date.today)
+    created_at = models.DateField(default=None)
     closed_at = models.DateField(default=None, null=True, blank=True)
     client = models.ForeignKey(
         Client, on_delete=models.SET_NULL, related_name='drawing', null=True)
-    file_type = models.CharField(max_length=256, default='dwg')
+    file = models.OneToOneField(
+        File, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
 
     def get_file(self):
-        return self.name+'.'+self.file_type
+        if self.file:
+            return self.file.name
+        else:
+            return None
