@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from rest_framework.generics import (
     CreateAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView)
@@ -13,7 +14,7 @@ from django.core.files.storage import FileSystemStorage
 from google.cloud import storage
 
 from .serializers import DrawingSerializer, DrawingRetreiveUpdateSerializer
-from .models import Drawing
+from .models import Drawing, File
 
 
 class DrawingListCreateAPIView(ListCreateAPIView):
@@ -38,16 +39,17 @@ class DrawingFileCreateAPIView(CreateAPIView):
         file = self.request.data.get('file')
 
         if os.environ.get('DJANGO_SETTINGS_MODULE') == 'JIM.settings.dev_settings':
-            uploads = os.listdir(os.path.relpath('./uploads'))
-
-            if file.name in uploads:
-                return Response(
-                    {'message': 'File {} exists'.format(file.name)},
-                    status=_400)
-            else:
-                fs = FileSystemStorage('uploads')
-                file_name = fs.save(file.name, file)
-                return Response(file_name)
+            fs = FileSystemStorage('uploads')
+            file_name = ''.join(file.name.split('.')[:-1])
+            file_type = file.name.split('.')[-1]
+            file_name = '{}_{}.{}'.format(
+                file_name,
+                str(datetime.today()),
+                file_type
+            )
+            created = File.objects.create(name=file_name, type=file_type)
+            fs.save(file_name, file)
+            return Response({'id': created.id, 'file': file_name})
         else:
 
             try:
