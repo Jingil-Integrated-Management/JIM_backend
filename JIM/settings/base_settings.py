@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_simplejwt',
 
+    'apps.Auth',
     'apps.Client',
     'apps.Division',
     'apps.Drawing',
