@@ -113,7 +113,8 @@ def parse():
 
                 outsource = None
 
-                if material_price or milling_price or heat_treat_price or wire_price:
+                if material_price or milling_price or \
+                        heat_treat_price or wire_price:
                     outsource = OutSource.objects.create(
                         material_price=int(
                             material_price) if material_price else None,
