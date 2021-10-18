@@ -62,6 +62,7 @@ class Part(models.Model):
     x = models.CharField(max_length=256)
     y = models.CharField(max_length=256)
     z = models.CharField(max_length=256)
+    quantity = models.IntegerField(default=1)
 
     price = models.CharField(max_length=256)
     comment = models.TextField(default=None, null=True, blank=True)
