@@ -15,7 +15,7 @@ class File(models.Model):
 class Drawing(models.Model):
     name = models.CharField(max_length=256)
     created_at = models.DateField(default=None)
-    closed_at = models.DateField(default=None, null=True, blank=True)
+    is_closed = models.BooleanField(default=False)
     client = models.ForeignKey(
         Client, on_delete=models.SET_NULL, related_name='drawing', null=True)
     file = models.OneToOneField(

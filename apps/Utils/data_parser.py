@@ -89,7 +89,7 @@ def parse():
                     drawing, _ = Drawing.objects.get_or_create(
                         name=drawing,
                         client=client_obj,
-                        closed_at=str(date.today()),
+                        is_closed=True,
                         created_at=str(date.today())
                     )
 
@@ -97,7 +97,7 @@ def parse():
                     drawing = Drawing.objects.create(
                         name=tmp_drawing + '%05d' % CNT,
                         client=client_obj,
-                        closed_at=str(date.today()),
+                        is_closed=True,
                         created_at=str(date.today())
                     )
                     CNT += 1
