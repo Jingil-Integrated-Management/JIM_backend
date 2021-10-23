@@ -5,6 +5,14 @@ from apps.Division.models import Division
 from apps.Client.models import Client
 
 
+class File(models.Model):
+    name = models.CharField(max_length=256)
+    type = models.CharField(max_length=16)
+
+    def __str__(self):
+        return self.name
+
+
 class Material (models.Model):
     name = models.CharField(max_length=128, primary_key=True)
 
@@ -58,6 +66,8 @@ class Part(models.Model):
         blank=True
     )
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    file = models.OneToOneField(
+        File, on_delete=models.CASCADE, null=True, blank=True)
 
     x = models.CharField(max_length=256)
     y = models.CharField(max_length=256)
@@ -69,3 +79,9 @@ class Part(models.Model):
 
     def __str__(self):
         return self.drawing.client.name + ' ' + str(self.division)
+
+    def get_file(self):
+        if self.file:
+            return self.file.name
+        else:
+            return None
