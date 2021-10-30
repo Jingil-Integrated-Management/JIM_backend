@@ -1,5 +1,5 @@
 from rest_framework.generics import (
-    ListCreateAPIView, RetrieveUpdateDestroyAPIView)
+    ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView)
 from rest_framework import filters
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -20,3 +20,7 @@ class DrawingRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = DrawingRetreiveUpdateSerializer
     queryset = Drawing.objects.all()
     lookup_url_kwarg = 'drawing_pk'
+
+class DashboardAPIView(ListAPIView):
+    serializer_class = DrawingRetreiveUpdateSerializer
+    queryset = Drawing.objects.filter(is_closed=False).order_by('client', 'created_at')

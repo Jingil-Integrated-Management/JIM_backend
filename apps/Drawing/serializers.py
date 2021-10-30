@@ -1,7 +1,11 @@
 from rest_framework import serializers
-from .models import Drawing
+from rest_framework.fields import SerializerMethodField
+from django.db.models import Sum
+from rest_framework.fields import CharField
 
+from .models import Drawing
 from apps.Part.serializers import PartSerializer
+from apps.Part.models import Part
 
 
 class DrawingSerializer(serializers.ModelSerializer):
@@ -13,6 +17,10 @@ class DrawingSerializer(serializers.ModelSerializer):
 
 class DrawingRetreiveUpdateSerializer(serializers.ModelSerializer):
     part = PartSerializer(source='parts', many=True, read_only=True)
+    price = SerializerMethodField()
+
+    def get_price(self, obj):
+        return Part.objects.filter(drawing=obj).aggregate(Sum('price'))['price__sum']
 
     class Meta:
         model = Drawing
