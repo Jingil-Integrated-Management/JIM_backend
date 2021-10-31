@@ -14,7 +14,7 @@ from google.cloud import storage
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import OutSourceSerializer, PartSerializer
+from .serializers import OutSourceSerializer, PartListSerializer, PartSerializer
 from .models import Part, OutSource, File
 
 
@@ -24,18 +24,27 @@ class OutSourceCreateAPIView(CreateAPIView):
 
 
 class PartListCreateAPIView(ListCreateAPIView):
-    serializer_class = PartSerializer
     queryset = Part.objects.all().order_by('drawing__created_at')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['division__main_division',
                         'division__sub_division', 'client']
+    
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PartListSerializer
+        else:
+            return PartSerializer
 
 
 class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = PartSerializer
     queryset = Part.objects.all()
     lookup_url_kwarg = 'part_pk'
 
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PartListSerializer
+        else:
+            return PartSerializer
 
 class PartFileCreateAPIView(CreateAPIView):
     queryset = Part.objects.all()
