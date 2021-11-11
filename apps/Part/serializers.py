@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework.fields import CharField, IntegerField, FloatField, DateField, SerializerMethodField
+from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
 from .models import OutSource, Part
 
@@ -8,6 +9,17 @@ class OutSourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = OutSource
         fields = '__all__'
+
+
+class OutSourceReadSerializer(serializers.Serializer):
+    material_price = CharField()
+    milling_price = CharField()
+    heat_treat_price = CharField()
+    wire_price = CharField()
+    material_client = StringRelatedField()
+    milling_client = StringRelatedField()
+    heat_treat_client = StringRelatedField()
+    wire_client = StringRelatedField()
 
 
 class PartCreateSerializer(serializers.ModelSerializer):
@@ -31,7 +43,8 @@ class PartSerializer(serializers.Serializer):
     comment = CharField()
     outsource = PrimaryKeyRelatedField(
         queryset=OutSource.objects.all(), write_only=True, allow_null=True)
-    outsource_info = OutSourceSerializer(source='outsource', read_only=True)
+    outsource_info = OutSourceReadSerializer(
+        source='outsource', read_only=True)
     type = SerializerMethodField()
 
     def get_type(self, obj):
