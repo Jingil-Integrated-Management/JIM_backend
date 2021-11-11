@@ -1,8 +1,9 @@
-from rest_framework.generics import (ListCreateAPIView,
+from django.db.models import query
+from rest_framework.generics import (ListAPIView, ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework import filters
 
-from .serializers import ClientSerializer
+from .serializers import ClientSerializer, ClientNameSerializer
 from .models import Client
 
 
@@ -17,3 +18,9 @@ class ClientRetrieveUpdateAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     lookup_url_kwarg = 'client_pk'
+
+
+class ClientNameListAPIView(ListAPIView):
+    queryset = Client.objects.all()
+    serializer_class = ClientNameSerializer
+    pagination_class = None
