@@ -9,6 +9,7 @@ class Drawing(models.Model):
     is_closed = models.BooleanField(default=False)
     client = models.ForeignKey(
         Client, on_delete=models.SET_NULL, related_name='drawing', null=True)
+    comment = models.TextField(default=None, null=True, blank=True)
 
     def __str__(self):
         return self.name
