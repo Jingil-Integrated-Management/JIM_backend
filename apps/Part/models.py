@@ -61,7 +61,7 @@ class Part(models.Model):
     outsource = models.OneToOneField(
         OutSource,
         related_name='part',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
