@@ -30,7 +30,7 @@ class PartSerializer(serializers.Serializer):
     material = CharField(source='material.name')
     comment = CharField()
     outsource = PrimaryKeyRelatedField(
-        queryset=OutSource.objects.all(), write_only=True, required=False)
+        queryset=OutSource.objects.all(), write_only=True, allow_null=True)
     outsource_info = OutSourceSerializer(source='outsource', read_only=True)
     type = SerializerMethodField()
 
@@ -55,5 +55,6 @@ class PartSerializer(serializers.Serializer):
             'name', instance.client_id)
         instance.outsource = validated_data.get(
             'outsource', instance.outsource)
+        # instance.save()
 
         return instance
