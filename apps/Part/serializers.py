@@ -56,4 +56,5 @@ class PartSerializer(serializers.Serializer):
         instance.outsource = validated_data.get(
             'outsource', instance.outsource)
 
+        instance.save()
         return instance
