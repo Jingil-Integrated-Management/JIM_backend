@@ -43,7 +43,7 @@ class DrawingSerializer(serializers.Serializer):
         instance.is_closed = validated_data.get(
             'is_closed', instance.is_closed)
         instance.comment = validated_data.get('comment', instance.comment)
-        instance.client_id = validated_data.get('client', instance.client_id)
+        instance.client = validated_data.get('client', instance.client)
 
         instance.save()
         return instance
