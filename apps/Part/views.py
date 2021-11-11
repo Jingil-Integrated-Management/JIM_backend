@@ -35,6 +35,12 @@ class OutSourceCreateAPIView(CreateAPIView):
             status=_200)
 
 
+class OutSourceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = OutSource.objects.all()
+    lookup_url_kwarg = 'outsource_pk'
+    serializer_class = OutSourceSerializer
+
+
 class PartListCreateAPIView(ListCreateAPIView):
     queryset = Part.objects.all().order_by('drawing__created_at')
     filter_backends = [DjangoFilterBackend]
