@@ -85,3 +85,9 @@ class Part(models.Model):
             return self.file.name
         else:
             return None
+
+    def get_type(self):
+        if self.outsource:
+            return '제작'
+        else:
+            return '연마'

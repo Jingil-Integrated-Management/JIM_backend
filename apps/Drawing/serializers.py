@@ -1,27 +1,54 @@
+from http import client
 from rest_framework import serializers
-from rest_framework.fields import SerializerMethodField
-from django.db.models import Sum
-from rest_framework.fields import CharField
+from rest_framework.fields import BooleanField, IntegerField, SerializerMethodField, CharField, DateField
+from rest_framework.relations import StringRelatedField
+from rest_framework.serializers import PrimaryKeyRelatedField
+from django.db.models import Sum, query
+
+from apps.Client.models import Client
 
 from .models import Drawing
-from apps.Part.serializers import PartSerializer
 from apps.Part.models import Part
 
 
-class DrawingSerializer(serializers.ModelSerializer):
+class DrawingSerializer(serializers.Serializer):
+    id = IntegerField(read_only=True)
+    name = CharField()
+    created_at = DateField(read_only=True)
+    is_closed = BooleanField(default=False)
+    client_name = StringRelatedField(source='client')
+    client = PrimaryKeyRelatedField(queryset=Client.objects.all())
+    comment = CharField(required=False)
 
-    class Meta:
-        model = Drawing
-        fields = '__all__'
-
-
-class DrawingRetreiveUpdateSerializer(serializers.ModelSerializer):
-    part = PartSerializer(source='parts', many=True, read_only=True)
-    price = SerializerMethodField()
+    parts = PrimaryKeyRelatedField(many=True, read_only=True)
+    price = SerializerMethodField(read_only=True)
+    type = SerializerMethodField(read_only=True)
 
     def get_price(self, obj):
-        return Part.objects.filter(drawing=obj).aggregate(Sum('price'))['price__sum']
+        return Part.objects.filter(drawing=obj).aggregate(
+            Sum('price'))['price__sum']
 
-    class Meta:
-        model = Drawing
-        fields = '__all__'
+    def get_type(self, obj):
+        if obj.parts.first():
+            return obj.parts.first().get_type()
+        return None
+
+    def create(self, validated_data):
+        return Drawing(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.created_at = validated_data.get(
+            'created_at', instance.created_at)
+        instance.is_closed = validated_data.get(
+            'is_closed', instance.is_closed)
+        instance.comment = validated_data.get('comment', instance.comment)
+        instance.client_id = validated_data.get('client', instance.client_id)
+
+        instance.save()
+        return instance
+
+
+class DashboardSerializer(serializers.Serializer):
+    client = CharField(read_only=True)
+    drawings = DrawingSerializer(many=True, read_only=True)
