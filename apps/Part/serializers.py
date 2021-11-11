@@ -1,40 +1,36 @@
-from django.db.models.fields import TextField
 from rest_framework import serializers
 from rest_framework.fields import CharField, IntegerField, FloatField, DateField, SerializerMethodField
+from rest_framework.serializers import PrimaryKeyRelatedField
 from .models import OutSource, Part
 
 
 class OutSourceSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = OutSource
         fields = '__all__'
 
 
-class PartSerializer(serializers.ModelSerializer):
-    division_name = CharField(
-        source='division.get_full_division', read_only=True)
-    drawing_file = CharField(source='get_file', read_only=True)
-    created_at = CharField(source='drawing.created_at', read_only=True)
-    outsource_info = OutSourceSerializer(source='outsource', read_only=True)
-
+class PartCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Part
         fields = '__all__'
 
-class PartListSerializer(serializers.Serializer):
+
+class PartSerializer(serializers.Serializer):
     id = IntegerField(read_only=True)
     division = CharField(source='division.main_division', read_only=True)
     subdivision = CharField(source='division.sub_division', read_only=True)
     drawing = CharField(source='drawing.name')
-    created_at = DateField(source='drawing.created_at',read_only=True)
-    x = FloatField(read_only=True)
-    y = FloatField(read_only=True)
-    z = FloatField(read_only=True)
-    quantity = IntegerField(read_only=True)
-    price = CharField(read_only=True)
+    created_at = DateField(source='drawing.created_at', read_only=True)
+    x = FloatField()
+    y = FloatField()
+    z = FloatField()
+    quantity = IntegerField()
+    price = CharField()
     material = CharField(source='material.name')
-    comment = CharField(read_only=True)
+    comment = CharField()
+    outsource = PrimaryKeyRelatedField(
+        queryset=OutSource.objects.all(), write_only=True, required=False)
     outsource_info = OutSourceSerializer(source='outsource', read_only=True)
     type = SerializerMethodField()
 
@@ -43,5 +39,21 @@ class PartListSerializer(serializers.Serializer):
             return '제작'
         else:
             return '연마'
-    
 
+    def update(self, instance, validated_data):
+        instance.x = validated_data.get('x', instance.x)
+        instance.y = validated_data.get('y', instance.y)
+        instance.z = validated_data.get('z', instance.z)
+        instance.price = validated_data.get('price', instance.price)
+        instance.division = validated_data.get('division', instance.division)
+        instance.drawing_id = validated_data.get('drawing', {}).get(
+            'name', instance.drawing_id)
+        instance.material_id = validated_data.get('material', {}).get(
+            'name', instance.material_id)
+        instance.comment = validated_data.get('comment', instance.comment)
+        instance.client_id = validated_data.get('client', {}).get(
+            'name', instance.client_id)
+        instance.outsource = validated_data.get(
+            'outsource', instance.outsource)
+
+        return instance

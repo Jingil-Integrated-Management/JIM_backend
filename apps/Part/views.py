@@ -8,13 +8,16 @@ from rest_framework.generics import (CreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST as _400
+from rest_framework.status import (HTTP_201_CREATED as _200,
+                                   HTTP_400_BAD_REQUEST as _400)
 
 from google.cloud import storage
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import OutSourceSerializer, PartListSerializer, PartSerializer
+from .serializers import (OutSourceSerializer,
+                          PartSerializer,
+                          PartCreateSerializer)
 from .models import Part, OutSource, File
 
 
@@ -22,29 +25,43 @@ class OutSourceCreateAPIView(CreateAPIView):
     serializer_class = OutSourceSerializer
     queryset = OutSource.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(
+            {'message': 'OutSource created.',
+             'id': serializer.data['id']},
+            status=_200)
+
 
 class PartListCreateAPIView(ListCreateAPIView):
     queryset = Part.objects.all().order_by('drawing__created_at')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['division__main_division',
                         'division__sub_division', 'client']
-    
+
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            return PartListSerializer
-        else:
             return PartSerializer
+        else:
+            return PartCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(
+            {'message': 'Part created.',
+             'id': serializer.data['id']},
+            status=_200)
 
 
 class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Part.objects.all()
     lookup_url_kwarg = 'part_pk'
+    serializer_class = PartSerializer
 
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return PartListSerializer
-        else:
-            return PartSerializer
 
 class PartFileCreateAPIView(CreateAPIView):
     queryset = Part.objects.all()
