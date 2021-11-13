@@ -21,6 +21,6 @@ class ClientRetrieveUpdateAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class ClientNameListAPIView(ListAPIView):
-    queryset = Client.objects.all()
+    queryset = Client.objects.filter(is_pinned=True)
     serializer_class = ClientNameSerializer
     pagination_class = None

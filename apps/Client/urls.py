@@ -1,6 +1,8 @@
 from django.urls import path
 
-from .views import ClientListCreateAPIView, ClientNameListAPIView, ClientRetrieveUpdateAPIView
+from .views import (ClientListCreateAPIView,
+                    ClientNameListAPIView,
+                    ClientRetrieveUpdateAPIView)
 
 
 urlpatterns = [
