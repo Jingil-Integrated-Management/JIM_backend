@@ -16,6 +16,7 @@ class Client(models.Model):
     primary_bank_account = models.CharField(
         max_length=256, null=True, blank=True)
     bank_account_name = models.CharField(max_length=128, null=True, blank=True)
+    is_pinned = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
