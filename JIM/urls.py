@@ -7,10 +7,10 @@ API_ROOT = 'api/v2/'
 
 urlpatterns = [
     path(API_ROOT + 'admin/', admin.site.urls),
-    path(API_ROOT, include('apps.Client.urls')),
-    path(API_ROOT, include('apps.Division.urls')),
-    path(API_ROOT, include('apps.Drawing.urls')),
-    path(API_ROOT, include('apps.Part.urls')),
-    path(API_ROOT, include('apps.Auth.urls'))
+    path(API_ROOT, include('apps.authentication.urls')),
+    path(API_ROOT, include('apps.client.urls')),
+    path(API_ROOT, include('apps.division.urls')),
+    path(API_ROOT, include('apps.drawing.urls')),
+    path(API_ROOT, include('apps.part.urls'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

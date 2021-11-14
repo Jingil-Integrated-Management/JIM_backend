@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 
-from apps.Client.models import Client
+from apps.client.models import Client
 
 
 def load(path, worksheet):
@@ -19,7 +19,7 @@ def _get(data, index):
 
 def parse():
 
-    data = load('apps/Utils/clients.xlsx', 'Sheet1')
+    data = load('utils/clients.xlsx', 'Sheet1')
     first_row = True
 
     for row in data.rows:

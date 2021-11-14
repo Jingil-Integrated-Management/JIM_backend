@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DrawingConfig(AppConfig):
+class ClientConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.Drawing'
+    name = 'apps.client'

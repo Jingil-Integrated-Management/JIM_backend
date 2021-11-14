@@ -1,9 +1,5 @@
 from django.db import models
 
-from apps.Drawing.models import Drawing
-from apps.Division.models import Division
-from apps.Client.models import Client
-
 
 class File(models.Model):
     name = models.CharField(max_length=256)
@@ -29,22 +25,22 @@ class OutSource(models.Model):
         max_length=256, default=None, null=True, blank=True)
 
     material_client = models.ForeignKey(
-        Client,
+        'client.Client',
         on_delete=models.CASCADE,
         related_name='material_clients',
         null=True, blank=True)
     milling_client = models.ForeignKey(
-        Client,
+        'client.Client',
         on_delete=models.CASCADE,
         related_name='milling_clients',
         null=True, blank=True)
     heat_treat_client = models.ForeignKey(
-        Client,
+        'client.Client',
         on_delete=models.CASCADE,
         related_name='heat_treat_clients',
         null=True, blank=True)
     wire_client = models.ForeignKey(
-        Client,
+        'client.Client',
         on_delete=models.CASCADE,
         related_name='wire_clients',
         null=True, blank=True)
@@ -55,9 +51,9 @@ class OutSource(models.Model):
 
 class Part(models.Model):
     drawing = models.ForeignKey(
-        Drawing, on_delete=models.CASCADE, related_name='parts', db_index=True)
-    division = models.ForeignKey(Division, on_delete=models.CASCADE)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+        'drawing.Drawing', on_delete=models.CASCADE, related_name='parts', db_index=True)
+    division = models.ForeignKey('division.Division', on_delete=models.CASCADE)
+    client = models.ForeignKey('client.Client', on_delete=models.CASCADE)
     outsource = models.OneToOneField(
         OutSource,
         related_name='part',
@@ -65,9 +61,9 @@ class Part(models.Model):
         null=True,
         blank=True
     )
-    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    material = models.ForeignKey('Material', on_delete=models.CASCADE)
     file = models.OneToOneField(
-        File, on_delete=models.CASCADE, null=True, blank=True)
+        'File', on_delete=models.CASCADE, null=True, blank=True)
 
     x = models.CharField(max_length=256)
     y = models.CharField(max_length=256)

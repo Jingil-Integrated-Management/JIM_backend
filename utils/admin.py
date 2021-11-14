@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from apps.Client.models import Client
-from apps.Division.models import Division
-from apps.Drawing.models import Drawing
-from apps.Part.models import Part, Material, OutSource, File
+from apps.client.models import Client
+from apps.division.models import Division
+from apps.drawing.models import Drawing
+from apps.part.models import Part, Material, OutSource, File
 
 admin.site.register(Client)
 admin.site.register(Division)

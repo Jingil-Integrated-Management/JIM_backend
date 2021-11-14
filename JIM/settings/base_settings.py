@@ -18,12 +18,13 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_simplejwt',
 
-    'apps.Auth',
-    'apps.Client',
-    'apps.Division',
-    'apps.Drawing',
-    'apps.Part',
-    'apps.Utils'
+    'apps.authentication',
+    'apps.client',
+    'apps.division',
+    'apps.drawing',
+    'apps.part',
+
+    'utils',
 ]
 
 REST_FRAMEWORK = {

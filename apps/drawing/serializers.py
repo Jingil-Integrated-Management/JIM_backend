@@ -1,14 +1,14 @@
-from http import client
 from rest_framework import serializers
 from rest_framework.fields import BooleanField, IntegerField, SerializerMethodField, CharField, DateField
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
-from django.db.models import Sum, query
 
-from apps.Client.models import Client
+from django.db.models import Sum
+
+from apps.client.models import Client
+from apps.part.models import Part
 
 from .models import Drawing
-from apps.Part.models import Part
 
 
 class DrawingSerializer(serializers.Serializer):

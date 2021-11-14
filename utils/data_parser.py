@@ -2,10 +2,10 @@ from datetime import date
 
 from openpyxl import load_workbook
 
-from apps.Client.models import Client
-from apps.Division.models import Division
-from apps.Drawing.models import Drawing
-from apps.Part.models import Part, Material, OutSource
+from apps.client.models import Client
+from apps.division.models import Division
+from apps.drawing.models import Drawing
+from apps.part.models import Part, Material, OutSource
 
 
 def _get(data, index):
@@ -31,7 +31,7 @@ def parse():
     worksheets = ['상우정밀', '성우금형(제작)']
 
     for ws in worksheets:
-        data = load('apps/Utils/data.xlsx', ws)
+        data = load('utils/data.xlsx', ws)
         first_row = False
 
         for row in data.rows:

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DivisionConfig(AppConfig):
+class PartConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.Division'
+    name = 'apps.part'
