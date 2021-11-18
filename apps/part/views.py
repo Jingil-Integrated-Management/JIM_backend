@@ -76,7 +76,7 @@ class PartFileCreateAPIView(CreateAPIView):
         file = self.request.data.get('file')
         file_type = file.name.split('.')[-1]
         file_name = 'file_{}.{}'.format(
-            str(datetime.today().isoformat),
+            str(datetime.today().isoformat()),
             file_type
         )
         if os.environ.get('DJANGO_SETTINGS_MODULE') == 'JIM.settings.dev_settings':
