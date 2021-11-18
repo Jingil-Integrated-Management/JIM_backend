@@ -1,8 +1,6 @@
 from rest_framework.generics import ListCreateAPIView, UpdateAPIView
 from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_201_CREATED as _201,
-    HTTP_400_BAD_REQUEST as _400)
+from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -34,13 +32,16 @@ class DivisionListCreateAPIView(ListCreateAPIView):
         )
         if obj:
             request.data['message'] = 'This division already exists!'
-            return Response(request.data, status=_400)
+            return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
         else:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
-            return Response(serializer.data, status=_201, headers=headers)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers)
 
 
 class DivisionUpdateAPIView(UpdateAPIView):
@@ -57,7 +58,7 @@ class DivisionUpdateAPIView(UpdateAPIView):
 
         if obj:
             request.data['message'] = 'This division already exists!'
-            return Response(request.data, status=_400)
+            return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
         else:
             partial = kwargs.pop('partial', False)
             instance = self.get_object()
