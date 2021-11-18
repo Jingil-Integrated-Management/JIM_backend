@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import CharField, IntegerField, FloatField, DateField, SerializerMethodField
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
-from .models import OutSource, Part
+from .models import OutSource, Part, File
 
 
 class OutSourceSerializer(serializers.ModelSerializer):
@@ -46,6 +46,9 @@ class PartSerializer(serializers.Serializer):
     outsource_info = OutSourceReadSerializer(
         source='outsource', read_only=True)
     type = SerializerMethodField()
+    file = PrimaryKeyRelatedField(
+        queryset=File.objects.all(), write_only=True, allow_null=True)
+    file_name = StringRelatedField(source='file')
 
     def get_type(self, obj):
         if obj.outsource:
@@ -68,6 +71,8 @@ class PartSerializer(serializers.Serializer):
             'name', instance.client_id)
         instance.outsource = validated_data.get(
             'outsource', instance.outsource)
+        instance.file = validated_data.get(
+            'file', instance.file)
 
         instance.save()
         return instance

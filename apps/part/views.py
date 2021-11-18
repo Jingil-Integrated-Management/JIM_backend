@@ -81,9 +81,7 @@ class PartFileCreateAPIView(CreateAPIView):
         )
         if os.environ.get('DJANGO_SETTINGS_MODULE') == 'JIM.settings.dev_settings':
             fs = FileSystemStorage('uploads')
-            created = File.objects.create(name=file_name, type=file_type)
             fs.save(file_name, file)
-            return Response({'id': created.id, 'file': file_name})
         else:
             try:
                 storage_client = storage.Client()
@@ -91,9 +89,10 @@ class PartFileCreateAPIView(CreateAPIView):
                 blob = bucket.blob(file_name)
                 blob.upload_from_string(
                     file.file.read(), content_type='application/octet-stream')
-                return Response('File {} uploaded'.format(file_name))
-
             except:
                 return Response(
                     {'message': 'Cloud Storage Server Error'},
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        created = File.objects.create(name=file_name, type=file_type)
+        return Response({'id': created.id, 'file': file_name})
