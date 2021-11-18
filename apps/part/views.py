@@ -8,8 +8,7 @@ from rest_framework.generics import (CreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
-from rest_framework.status import (HTTP_201_CREATED as _200,
-                                   HTTP_400_BAD_REQUEST as _400)
+from rest_framework import status
 
 from google.cloud import storage
 
@@ -32,7 +31,7 @@ class OutSourceCreateAPIView(CreateAPIView):
         return Response(
             {'message': 'OutSource created.',
              'id': serializer.data['id']},
-            status=_200)
+            status=status.HTTP_200_OK)
 
 
 class OutSourceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
@@ -60,7 +59,7 @@ class PartListCreateAPIView(ListCreateAPIView):
         return Response(
             {'message': 'Part created.',
              'id': serializer.data['id']},
-            status=_200)
+            status=status.HTTP_200_OK)
 
 
 class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
@@ -75,27 +74,26 @@ class PartFileCreateAPIView(CreateAPIView):
 
     def create(self, *args, **kwargs):
         file = self.request.data.get('file')
+        file_name = ''.join(file.name.split('.')[:-1])
+        file_type = file.name.split('.')[-1]
+        file_name = '{}_{}.{}'.format(
+            file_name,
+            str(datetime.today()),
+            file_type
+        )
         if os.environ.get('DJANGO_SETTINGS_MODULE') == 'JIM.settings.dev_settings':
             fs = FileSystemStorage('uploads')
-            file_name = ''.join(file.name.split('.')[:-1])
-            file_type = file.name.split('.')[-1]
-            file_name = '{}_{}.{}'.format(
-                file_name,
-                str(datetime.today()),
-                file_type
-            )
             created = File.objects.create(name=file_name, type=file_type)
             fs.save(file_name, file)
             return Response({'id': created.id, 'file': file_name})
         else:
-
             try:
                 storage_client = storage.Client()
-                bucket = storage_client.bucket('jingil-integrated-management')
-                blob = bucket.blob(file.name)
+                bucket = storage_client.bucket('jim-storage')
+                blob = bucket.blob(file_name)
                 blob.upload_from_string(
                     file.file.read(), content_type='application/octet-stream')
-                return Response('File {} uploaded'.format(file.name))
+                return Response('File {} uploaded'.format(file_name))
 
             except:
-                return Response('Cloud Storage Server Error', _400)
+                return Response('Cloud Storage Server Error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
