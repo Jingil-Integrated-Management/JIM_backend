@@ -69,16 +69,14 @@ class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class PartFileCreateAPIView(CreateAPIView):
-    queryset = Part.objects.all()
+    queryset = File.objects.all()
     parser_classes = [MultiPartParser]
 
     def create(self, *args, **kwargs):
         file = self.request.data.get('file')
-        file_name = ''.join(file.name.split('.')[:-1])
         file_type = file.name.split('.')[-1]
-        file_name = '{}_{}.{}'.format(
-            file_name,
-            str(datetime.today()),
+        file_name = 'file_{}.{}'.format(
+            str(datetime.today().isoformat),
             file_type
         )
         if os.environ.get('DJANGO_SETTINGS_MODULE') == 'JIM.settings.dev_settings':
@@ -96,4 +94,6 @@ class PartFileCreateAPIView(CreateAPIView):
                 return Response('File {} uploaded'.format(file_name))
 
             except:
-                return Response('Cloud Storage Server Error', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response(
+                    {'message': 'Cloud Storage Server Error'},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
