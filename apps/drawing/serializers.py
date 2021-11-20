@@ -3,7 +3,8 @@ from rest_framework.fields import BooleanField, IntegerField, SerializerMethodFi
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
 
-from django.db.models import Sum
+from django.db.models import Sum, F, IntegerField as Int
+from django.db.models.functions import Cast
 
 from apps.client.models import Client
 from apps.part.models import Part
@@ -25,8 +26,7 @@ class DrawingSerializer(serializers.Serializer):
     type = SerializerMethodField(read_only=True)
 
     def get_price(self, obj):
-        return Part.objects.filter(drawing=obj).aggregate(
-            Sum('price'))['price__sum']
+        return Part.objects.filter(drawing=obj).aggregate(total=Sum(Cast(F('price'), output_field=Int()) * F('quantity')))['total']
 
     def get_type(self, obj):
         if obj.parts.first():
