@@ -1,8 +1,6 @@
 import os
 from datetime import datetime
 
-from django.core.files.storage import FileSystemStorage
-
 from rest_framework.generics import (CreateAPIView,
                                      ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)

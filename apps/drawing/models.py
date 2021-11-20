@@ -6,7 +6,11 @@ class Drawing(models.Model):
     created_at = models.DateField(default=None)
     is_closed = models.BooleanField(default=False)
     client = models.ForeignKey(
-        'client.Client', on_delete=models.SET_NULL, related_name='drawing', null=True)
+        'client.Client',
+        on_delete=models.SET_NULL,
+        related_name='drawing',
+        null=True
+    )
     comment = models.TextField(default=None, null=True, blank=True)
 
     def __str__(self):

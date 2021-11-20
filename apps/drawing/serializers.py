@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from rest_framework.fields import BooleanField, IntegerField, SerializerMethodField, CharField, DateField
+from rest_framework.fields import (BooleanField,
+                                   IntegerField,
+                                   SerializerMethodField,
+                                   CharField,
+                                   DateField,
+                                   )
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
 
@@ -26,7 +31,9 @@ class DrawingReadSerializer(serializers.Serializer):
     type = SerializerMethodField(read_only=True)
 
     def get_price(self, obj):
-        return Part.objects.filter(drawing=obj).aggregate(total=Sum(Cast(F('price'), output_field=Int()) * F('quantity')))['total']
+        return Part.objects.filter(drawing=obj).aggregate(
+            total=Sum(Cast(F('price'), output_field=Int()) * F('quantity'))
+        )['total']
 
     def get_type(self, obj):
         if obj.parts.first():
