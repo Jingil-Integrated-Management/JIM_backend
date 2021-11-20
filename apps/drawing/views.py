@@ -10,13 +10,15 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import DrawingSerializer
 from .models import Drawing
+from .filters import DrawingFilter
 
 
 class DrawingListCreateAPIView(ListCreateAPIView):
     serializer_class = DrawingSerializer
-    queryset = Drawing.objects.all()
+    queryset = Drawing.objects.filter(
+        is_closed=True)
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['name', 'client']
+    filterset_class = DrawingFilter
     search_fields = ['name', 'client__name']
 
 
