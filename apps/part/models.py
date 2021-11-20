@@ -53,7 +53,6 @@ class Part(models.Model):
     drawing = models.ForeignKey(
         'drawing.Drawing', on_delete=models.CASCADE, related_name='parts')
     division = models.ForeignKey('division.Division', on_delete=models.CASCADE)
-    client = models.ForeignKey('client.Client', on_delete=models.CASCADE)
     outsource = models.OneToOneField(
         OutSource,
         related_name='part',

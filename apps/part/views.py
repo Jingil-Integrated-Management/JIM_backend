@@ -50,15 +50,6 @@ class PartListCreateAPIView(ListCreateAPIView):
         else:
             return PartReadSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(
-            {'message': 'Part created.',
-             'id': serializer.data['id']},
-            status=status.HTTP_200_OK)
-
 
 class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Part.objects.all()
