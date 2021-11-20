@@ -9,7 +9,7 @@ from .models import Client
 
 
 class ClientListCreateAPIView(ListCreateAPIView):
-    queryset = Client.objects.all()
+    queryset = Client.objects.all().order_by('name')
     serializer_class = ClientSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = ['is_pinned']
@@ -20,3 +20,10 @@ class ClientRetrieveUpdateAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     lookup_url_kwarg = 'client_pk'
+
+
+class ClientNaviListAPIView(ListAPIView):
+    queryset = Client.objects.all().exclude(
+        is_pinned=0).order_by('-is_pinned', 'name')
+    serializer_class = ClientNameSerializer
+    pagination_class = None

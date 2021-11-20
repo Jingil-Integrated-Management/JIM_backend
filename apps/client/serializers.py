@@ -13,3 +13,4 @@ class ClientSerializer(serializers.ModelSerializer):
 class ClientNameSerializer(serializers.Serializer):
     id = IntegerField()
     name = CharField()
+    is_pinned = IntegerField()
