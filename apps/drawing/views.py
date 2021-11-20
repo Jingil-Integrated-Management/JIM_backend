@@ -42,7 +42,7 @@ class DashboardAPIView(ListAPIView):
     pagination_class = None
     serializer_class = DrawingReadSerializer
     queryset = Drawing.objects.filter(
-        is_closed=False).order_by('client', 'created_at')
+        is_closed=False).order_by('client', '-created_at')
 
     def group_by_client(self, data):
         data = sorted(data, key=operator.itemgetter('client_name'))
