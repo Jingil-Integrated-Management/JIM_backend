@@ -11,8 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .serializers import (OutSourceSerializer,
-                          PartSerializer,
-                          PartCreateSerializer)
+                          PartReadSerializer,
+                          PartWriteSerializer)
 from .models import Part, OutSource, File
 from .filters import PartFilter
 
@@ -47,10 +47,10 @@ class PartListCreateAPIView(ListCreateAPIView):
     filterset_class = PartFilter
 
     def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return PartSerializer
+        if self.request.method == 'POST':
+            return PartWriteSerializer
         else:
-            return PartCreateSerializer
+            return PartReadSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -65,7 +65,12 @@ class PartListCreateAPIView(ListCreateAPIView):
 class PartRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Part.objects.all()
     lookup_url_kwarg = 'part_pk'
-    serializer_class = PartSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            return PartWriteSerializer
+        else:
+            return PartReadSerializer
 
 
 class PartFileCreateAPIView(CreateAPIView):

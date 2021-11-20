@@ -8,29 +8,39 @@ from rest_framework.response import Response
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import DrawingSerializer
+from .serializers import DrawingReadSerializer, DrawingWriteSerializer
 from .models import Drawing
 from .filters import DrawingFilter
 
 
 class DrawingListCreateAPIView(ListCreateAPIView):
-    serializer_class = DrawingSerializer
     queryset = Drawing.objects.filter(
         is_closed=True)
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = DrawingFilter
     search_fields = ['name', 'client__name']
 
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return DrawingWriteSerializer
+        else:
+            return DrawingReadSerializer
+
 
 class DrawingRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = DrawingSerializer
     queryset = Drawing.objects.all()
     lookup_url_kwarg = 'drawing_pk'
+
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            return DrawingWriteSerializer
+        else:
+            return DrawingReadSerializer
 
 
 class DashboardAPIView(ListAPIView):
     pagination_class = None
-    serializer_class = DrawingSerializer
+    serializer_class = DrawingReadSerializer
     queryset = Drawing.objects.filter(
         is_closed=False).order_by('client', 'created_at')
 

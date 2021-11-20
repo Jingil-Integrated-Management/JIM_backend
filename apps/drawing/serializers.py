@@ -12,10 +12,10 @@ from apps.part.models import Part
 from .models import Drawing
 
 
-class DrawingSerializer(serializers.Serializer):
+class DrawingReadSerializer(serializers.Serializer):
     id = IntegerField(read_only=True)
     name = CharField()
-    created_at = DateField(read_only=True)
+    created_at = DateField()
     is_closed = BooleanField(default=False)
     client_name = StringRelatedField(source='client')
     client = PrimaryKeyRelatedField(queryset=Client.objects.all())
@@ -33,22 +33,8 @@ class DrawingSerializer(serializers.Serializer):
             return obj.parts.first().get_type()
         return None
 
-    def create(self, validated_data):
-        return Drawing(**validated_data)
 
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.created_at = validated_data.get(
-            'created_at', instance.created_at)
-        instance.is_closed = validated_data.get(
-            'is_closed', instance.is_closed)
-        instance.comment = validated_data.get('comment', instance.comment)
-        instance.client = validated_data.get('client', instance.client)
-
-        instance.save()
-        return instance
-
-
-class DashboardSerializer(serializers.Serializer):
-    client = CharField(read_only=True)
-    drawings = DrawingSerializer(many=True, read_only=True)
+class DrawingWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drawing
+        fields = '__all__'
