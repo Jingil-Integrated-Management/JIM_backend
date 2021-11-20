@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import CharField, IntegerField, FloatField, DateField, SerializerMethodField
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
+
 from .models import OutSource, Part, File
 
 
@@ -32,7 +33,7 @@ class PartSerializer(serializers.Serializer):
     id = IntegerField(read_only=True)
     division = CharField(source='division.main_division', read_only=True)
     subdivision = CharField(source='division.sub_division', read_only=True)
-    drawing = CharField(source='drawing.name')
+    drawing = CharField(source='drawing.name', read_only=True)
     created_at = DateField(source='drawing.created_at', read_only=True)
     x = FloatField()
     y = FloatField()
@@ -68,8 +69,6 @@ class PartSerializer(serializers.Serializer):
         instance.material_id = validated_data.get('material', {}).get(
             'name', instance.material_id)
         instance.comment = validated_data.get('comment', instance.comment)
-        instance.client_id = validated_data.get('client', {}).get(
-            'name', instance.client_id)
         instance.outsource = validated_data.get(
             'outsource', instance.outsource)
         instance.file = validated_data.get(

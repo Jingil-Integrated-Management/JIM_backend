@@ -140,6 +140,5 @@ def parse():
                     x=x, y=y, z=z,
                     price=int(price),
                     material=material_obj,
-                    client=client_obj,
                     outsource=outsource
                 )
