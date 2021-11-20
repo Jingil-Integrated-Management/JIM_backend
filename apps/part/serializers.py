@@ -62,6 +62,7 @@ class PartSerializer(serializers.Serializer):
         instance.z = validated_data.get('z', instance.z)
         instance.price = validated_data.get('price', instance.price)
         instance.division = validated_data.get('division', instance.division)
+        instance.quantity = validated_data.get('quantity', instance.quantity)
         instance.drawing_id = validated_data.get('drawing', {}).get(
             'name', instance.drawing_id)
         instance.material_id = validated_data.get('material', {}).get(
