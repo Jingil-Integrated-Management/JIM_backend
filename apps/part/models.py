@@ -73,7 +73,7 @@ class Part(models.Model):
     comment = models.TextField(default=None, null=True, blank=True)
 
     def __str__(self):
-        return self.drawing.client.name + ' ' + str(self.division)
+        return '{} {}'.format(self.drawing.client.name, str(self.division))
 
     def get_file(self):
         if self.file:
