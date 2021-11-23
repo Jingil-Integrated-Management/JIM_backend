@@ -105,6 +105,7 @@ class StatisticsAPIView(APIView):
             - to_int(result['millings']) \
             - to_int(result['wires']) \
             - to_int(result['heat_treats'])
+        result['total_profit'] = to_int(result['os_profit']) + to_int(result['pol_revenue'])
 
         result['client'] = queryset.first().client.name
         result['date'] = '{}-{}'.format(year, month)
