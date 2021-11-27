@@ -14,4 +14,4 @@ class DrawingFilter(django_filters.FilterSet):
 
     class Meta:
         model = Drawing
-        fields = ['client', 'name', ]
+        fields = ['client', 'name', 'is_closed']
