@@ -34,6 +34,7 @@ class ClientNaviListAPIView(ListAPIView):
 
 class DashboardClientListAPIView(ListAPIView):
     queryset = Client.objects.filter(drawings__in=(
-        Drawing.objects.prefetch_related('client').filter(is_closed=False)))
+        Drawing.objects.prefetch_related(
+            'client').filter(is_closed=False))).distinct()
     serializer_class = ClientDashboardSerializer
     pagination_class = None
