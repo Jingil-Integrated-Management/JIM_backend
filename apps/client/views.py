@@ -1,10 +1,13 @@
+from django.db.models import query
 from rest_framework.generics import (ListAPIView, ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
 from rest_framework import filters
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import ClientSerializer, ClientNameSerializer
+from apps.drawing.models import Drawing
+
+from .serializers import ClientSerializer, ClientNameSerializer, ClientDashboardSerializer
 from .models import Client
 
 
@@ -27,3 +30,9 @@ class ClientNaviListAPIView(ListAPIView):
         is_pinned=0).order_by('-is_pinned', 'name')
     serializer_class = ClientNameSerializer
     pagination_class = None
+
+
+class DashboardClientListAPIView(ListAPIView):
+    queryset = Client.objects.filter(drawings__in=(
+        Drawing.objects.prefetch_related('client').filter(is_closed=False)))
+    serializer_class = ClientDashboardSerializer

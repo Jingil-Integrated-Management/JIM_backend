@@ -8,7 +8,7 @@ class Drawing(models.Model):
     client = models.ForeignKey(
         'client.Client',
         on_delete=models.SET_NULL,
-        related_name='drawing',
+        related_name='drawings',
         null=True
     )
     comment = models.TextField(default=None, null=True, blank=True)

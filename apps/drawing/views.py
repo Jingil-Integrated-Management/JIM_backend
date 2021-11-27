@@ -22,6 +22,7 @@ from .filters import DrawingFilter
 
 from utils.utils import to_int
 
+
 class DrawingListCreateAPIView(ListCreateAPIView):
     queryset = Drawing.objects.filter(
         is_closed=True)
@@ -57,10 +58,12 @@ class DashboardAPIView(ListAPIView):
         data = sorted(data, key=operator.itemgetter('client_name'))
         data = itertools.groupby(data, key=operator.itemgetter('client_name'))
 
-        result = list()
-        for client, drawings in data:
-            result.append({'client': client, 'drawings': list(drawings)})
-
+        result = [
+            {
+                'client': client,
+                'drawings': list(drawings)
+            } for client, drawings in data
+        ]
         return result
 
     def list(self, request, *args, **kwargs):
@@ -83,29 +86,38 @@ class StatisticsAPIView(APIView):
         year, month = request.query_params['date'].split('-')
         queryset = Drawing.objects.filter(client=request.query_params['client']).filter(
             created_at__gte='{}-{}-{}'.format(year, month, '01'),
-            created_at__lte='{}-{}-{}'.format(year, month, calendar.monthrange(int(year), int(month))[1])
-            ).prefetch_related('parts')
+            created_at__lte='{}-{}-{}'.format(year, month,
+                                              calendar.monthrange(int(year), int(month))[1])
+        ).prefetch_related('parts')
 
         os_info = Part.objects.exclude(outsource=None).filter(drawing__in=queryset).aggregate(
-        os_revenue=Sum(Cast(F('price'), output_field=IntegerField()) * F('quantity')),
-        materials=Sum(Cast(F('outsource__material_price'), output_field=IntegerField()) * F('quantity')),
-        millings=Sum(Cast(F('outsource__milling_price'), output_field=IntegerField()) * F('quantity')),
-        wires=Sum(Cast(F('outsource__wire_price'), output_field=IntegerField()) * F('quantity')),
-        heat_treats=Sum(Cast(F('outsource__heat_treat_price'), output_field=IntegerField()) * F('quantity'))
+            os_revenue=Sum(
+                Cast(F('price'), output_field=IntegerField()) * F('quantity')),
+            materials=Sum(Cast(F('outsource__material_price'),
+                          output_field=IntegerField()) * F('quantity')),
+            millings=Sum(Cast(F('outsource__milling_price'),
+                         output_field=IntegerField()) * F('quantity')),
+            wires=Sum(Cast(F('outsource__wire_price'),
+                      output_field=IntegerField()) * F('quantity')),
+            heat_treats=Sum(Cast(F('outsource__heat_treat_price'),
+                            output_field=IntegerField()) * F('quantity'))
         )
-    
+
         pol_info = Part.objects.filter(outsource=None).filter(drawing__in=queryset).aggregate(
-        pol_revenue=Sum(Cast(F('price'), output_field=IntegerField()) * F('quantity')),
+            pol_revenue=Sum(
+                Cast(F('price'), output_field=IntegerField()) * F('quantity')),
         )
 
         result = {**os_info, **pol_info}
-        result['total_revenue'] = to_int(result['os_revenue']) + to_int(result['pol_revenue'])
+        result['total_revenue'] = to_int(
+            result['os_revenue']) + to_int(result['pol_revenue'])
         result['os_profit'] = to_int(result['os_revenue']) \
             - to_int(result['materials']) \
             - to_int(result['millings']) \
             - to_int(result['wires']) \
             - to_int(result['heat_treats'])
-        result['total_profit'] = to_int(result['os_profit']) + to_int(result['pol_revenue'])
+        result['total_profit'] = to_int(
+            result['os_profit']) + to_int(result['pol_revenue'])
 
         result['client'] = queryset.first().client.name
         result['date'] = '{}-{}'.format(year, month)
