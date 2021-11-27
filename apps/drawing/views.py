@@ -24,8 +24,7 @@ from utils.utils import to_int
 
 
 class DrawingListCreateAPIView(ListCreateAPIView):
-    queryset = Drawing.objects.filter(
-        is_closed=True)
+    queryset = Drawing.objects.all()
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = DrawingFilter
     search_fields = ['name', 'client__name']
