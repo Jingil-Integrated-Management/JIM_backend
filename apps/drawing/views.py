@@ -24,7 +24,7 @@ from utils.utils import to_int
 
 
 class DrawingListCreateAPIView(ListCreateAPIView):
-    queryset = Drawing.objects.all()
+    queryset = Drawing.objects.all().order_by('-created_at')
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = DrawingFilter
     search_fields = ['name', 'client__name']
