@@ -17,6 +17,7 @@ class ClientListCreateAPIView(ListCreateAPIView):
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = ['is_pinned']
     search_fields = ['name', ]
+    pagination_class = None
 
 
 class ClientRetrieveUpdateAPIView(RetrieveUpdateDestroyAPIView):
