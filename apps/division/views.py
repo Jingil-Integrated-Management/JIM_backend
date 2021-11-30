@@ -74,3 +74,6 @@ class MainDivisionListAPIView(ListAPIView):
     queryset = Division.objects.all().values('main_division').distinct()
     pagination_class = None
     serializer_class = MainDivisionSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['client']
+
