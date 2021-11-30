@@ -9,6 +9,7 @@ class DivisionSerializer(serializers.ModelSerializer):
         model = Division
         fields = '__all__'
 
+
 class MainDivisionSerializer(serializers.Serializer):
     id = IntegerField()
     main_division = CharField()
