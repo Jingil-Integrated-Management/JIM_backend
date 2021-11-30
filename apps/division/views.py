@@ -1,10 +1,11 @@
-from rest_framework.generics import ListCreateAPIView, UpdateAPIView
+from django.db.models import query
+from rest_framework.generics import ListAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import DivisionSerializer
+from .serializers import DivisionSerializer, MainDivisionSerializer
 from .models import Division
 
 
@@ -67,3 +68,9 @@ class DivisionUpdateAPIView(UpdateAPIView):
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
             return Response(serializer.data)
+
+
+class MainDivisionListAPIView(ListAPIView):
+    queryset = Division.objects.all().values('main_division').distinct()
+    pagination_class = None
+    serializer_class = MainDivisionSerializer

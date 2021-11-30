@@ -11,5 +11,5 @@ urlpatterns = [
     path('client/', ClientListCreateAPIView.as_view()),
     path('client/<client_pk>', ClientRetrieveUpdateAPIView.as_view()),
     path('navi/', ClientNaviListAPIView.as_view()),
-    path('dash/', DashboardClientListAPIView.as_view()),
+    path('dashboard/', DashboardClientListAPIView.as_view()),
 ]
