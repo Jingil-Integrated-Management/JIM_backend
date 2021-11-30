@@ -47,37 +47,6 @@ class DrawingRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
             return DrawingReadSerializer
 
 
-class DashboardAPIView(ListAPIView):
-    pagination_class = None
-    serializer_class = DrawingReadSerializer
-    queryset = Drawing.objects.filter(
-        is_closed=False).order_by('client', '-created_at')
-
-    def group_by_client(self, data):
-        data = sorted(data, key=operator.itemgetter('client_name'))
-        data = itertools.groupby(data, key=operator.itemgetter('client_name'))
-
-        result = [
-            {
-                'client': client,
-                'drawings': list(drawings)
-            } for client, drawings in data
-        ]
-        return result
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        self.group_by_client(serializer.data)
-        return Response(self.group_by_client(serializer.data))
-
-
 class StatisticsAPIView(APIView):
     pagination_class = None
 
