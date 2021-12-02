@@ -11,5 +11,4 @@ class DivisionSerializer(serializers.ModelSerializer):
 
 
 class MainDivisionSerializer(serializers.Serializer):
-    id = IntegerField()
     main_division = CharField()
