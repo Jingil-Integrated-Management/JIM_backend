@@ -79,6 +79,10 @@ class StatisticsAPIView(APIView):
         result = {**os_info, **pol_info}
         result['total_revenue'] = to_int(
             result['os_revenue']) + to_int(result['pol_revenue'])
+        result['total_os_costs'] = to_int(result['materials']) \
+            + to_int(result['millings']) \
+            + to_int(result['wires']) \
+            + to_int(result['heat_treats'])
         result['os_profit'] = to_int(result['os_revenue']) \
             - to_int(result['materials']) \
             - to_int(result['millings']) \
