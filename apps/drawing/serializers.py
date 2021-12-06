@@ -28,6 +28,7 @@ class DrawingReadSerializer(serializers.Serializer):
 
     price = SerializerMethodField(read_only=True)
     type = SerializerMethodField(read_only=True)
+    part_count = SerializerMethodField(read_only=True)
 
     def get_price(self, obj):
         return Part.objects.filter(drawing=obj).aggregate(
@@ -38,6 +39,11 @@ class DrawingReadSerializer(serializers.Serializer):
         if obj.parts.first():
             return obj.parts.first().get_type()
         return None
+
+    def get_part_count(self, obj):
+        if obj.parts:
+            return obj.parts.count()
+        return 0
 
 
 class DrawingWriteSerializer(serializers.ModelSerializer):
