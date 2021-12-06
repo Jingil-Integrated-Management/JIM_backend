@@ -11,6 +11,8 @@ class DrawingFilter(django_filters.FilterSet):
         field_name='created_at', lookup_expr='lte')
     created_at__gte = django_filters.DateFilter(
         field_name='created_at', lookup_expr='gte')
+    outsource_isnull = django_filters.BooleanFilter(
+        field_name='parts__outsource', lookup_expr='isnull')
 
     class Meta:
         model = Drawing
