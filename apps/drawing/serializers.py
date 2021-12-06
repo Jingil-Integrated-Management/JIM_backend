@@ -26,7 +26,6 @@ class DrawingReadSerializer(serializers.Serializer):
     client = PrimaryKeyRelatedField(queryset=Client.objects.all())
     comment = CharField(required=False)
 
-    parts = PrimaryKeyRelatedField(many=True, read_only=True)
     price = SerializerMethodField(read_only=True)
     type = SerializerMethodField(read_only=True)
 
