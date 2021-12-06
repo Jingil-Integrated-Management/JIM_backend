@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.db.models import query
 
 from rest_framework.generics import (CreateAPIView,
                                      ListCreateAPIView,
@@ -7,10 +8,10 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import (OutSourceSerializer,
+from .serializers import (MaterialSerializer, OutSourceSerializer,
                           PartReadSerializer,
                           PartWriteSerializer)
-from .models import Part, OutSource, File
+from .models import Material, Part, OutSource, File
 from .filters import PartFilter
 
 from google.cloud import storage
@@ -85,3 +86,9 @@ class PartFileCreateAPIView(CreateAPIView):
 
         created = File.objects.create(name=file_name, type=file_type)
         return Response({'id': created.id, 'file': file_name})
+
+
+class MaterialListAPIView(ListCreateAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    pagination_class = None

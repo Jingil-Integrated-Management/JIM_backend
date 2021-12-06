@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework import fields
 from rest_framework.fields import (CharField,
                                    IntegerField,
                                    FloatField,
@@ -8,7 +9,7 @@ from rest_framework.fields import (CharField,
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
 
-from .models import OutSource, Part, File
+from .models import Material, OutSource, Part, File
 
 
 class OutSourceSerializer(serializers.ModelSerializer):
@@ -61,3 +62,10 @@ class PartReadSerializer(serializers.Serializer):
             return '제작'
         else:
             return '연마'
+
+
+class MaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Material
+        fields = '__all__'

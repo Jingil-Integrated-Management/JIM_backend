@@ -1,10 +1,11 @@
 from django.urls import path
 
-from .views import (PartListCreateAPIView,
+from .views import (MaterialListAPIView, PartListCreateAPIView,
                     PartRetrieveUpdateDestroyAPIView,
                     OutSourceCreateAPIView,
                     OutSourceRetrieveUpdateDestroyAPIView,
-                    PartFileCreateAPIView)
+                    PartFileCreateAPIView,
+                    )
 
 urlpatterns = [
     path('part/', PartListCreateAPIView.as_view()),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('outsource/', OutSourceCreateAPIView.as_view()),
     path('outsource/<outsource_pk>',
          OutSourceRetrieveUpdateDestroyAPIView.as_view()),
-    path('files/', PartFileCreateAPIView.as_view())
+    path('files/', PartFileCreateAPIView.as_view()),
+    path('material/', MaterialListAPIView.as_view()),
 ]
