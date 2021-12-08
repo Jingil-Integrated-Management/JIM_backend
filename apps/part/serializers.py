@@ -56,6 +56,7 @@ class PartReadSerializer(serializers.Serializer):
     file = PrimaryKeyRelatedField(
         queryset=File.objects.all(), write_only=True, allow_null=True)
     file_name = StringRelatedField(source='file')
+    client_name = CharField(source='drawing.client')
 
     def get_type(self, obj):
         if obj.outsource:
