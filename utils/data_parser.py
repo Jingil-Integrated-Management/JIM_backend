@@ -85,12 +85,18 @@ def parse():
                     client=client_obj
                 )
 
+                is_os = False
+                if material_price or milling_price or \
+                        heat_treat_price or wire_price:
+                    is_os = True
+
                 if drawing:
                     drawing, _ = Drawing.objects.get_or_create(
                         name=drawing,
                         client=client_obj,
                         is_closed=True,
-                        created_at=str(date.today())
+                        created_at=str(date.today()),
+                        is_outsource=is_os
                     )
 
                 else:
@@ -98,7 +104,8 @@ def parse():
                         name=tmp_drawing + '%05d' % CNT,
                         client=client_obj,
                         is_closed=True,
-                        created_at=str(date.today())
+                        created_at=str(date.today()),
+                        is_outsource=is_os
                     )
                     CNT += 1
 
@@ -113,8 +120,7 @@ def parse():
 
                 outsource = None
 
-                if material_price or milling_price or \
-                        heat_treat_price or wire_price:
+                if is_os:
                     outsource = OutSource.objects.create(
                         material_price=int(
                             material_price) if material_price else None,
