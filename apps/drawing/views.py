@@ -13,6 +13,7 @@ from rest_framework.response import Response
 
 
 from django_filters.rest_framework import DjangoFilterBackend
+from apps.client.models import Client
 
 from apps.part.models import Part
 
@@ -90,8 +91,9 @@ class StatisticsAPIView(APIView):
             - to_int(result['heat_treats'])
         result['total_profit'] = to_int(
             result['os_profit']) + to_int(result['pol_revenue'])
-
-        result['client'] = queryset.first().client.name
+        print(queryset)
+        result['client'] = queryset.first().client.name if queryset else Client.objects.filter(
+            id=request.query_params['client']).first().name
         result['date'] = '{}-{}'.format(year, month)
 
         return Response(result)
