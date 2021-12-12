@@ -14,6 +14,7 @@ djangorestframework-simplejwt = "*"
 pyjwt = "~=2.1.0"
 gunicorn = "*"
 psycopg2 = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 pycodestyle = "*"
