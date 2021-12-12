@@ -13,6 +13,7 @@ google-cloud-storage = "*"
 djangorestframework-simplejwt = "*"
 pyjwt = "~=2.1.0"
 gunicorn = "*"
+psycopg2 = "*"
 
 [dev-packages]
 pycodestyle = "*"
