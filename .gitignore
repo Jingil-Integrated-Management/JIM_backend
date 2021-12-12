@@ -5,3 +5,4 @@ db.sqlite3
 uploads
 *.xlsx
 /static
+__pycache__
