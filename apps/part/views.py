@@ -40,7 +40,7 @@ class OutSourceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class PartListCreateAPIView(ListCreateAPIView):
-    queryset = Part.objects.all().order_by('drawing__created_at')
+    queryset = Part.objects.all().order_by('drawing__created_at', 'id')
     filter_backends = [DjangoFilterBackend]
     filterset_class = PartFilter
 

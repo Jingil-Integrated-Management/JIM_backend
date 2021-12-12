@@ -25,7 +25,7 @@ class DivisionListCreateAPIView(ListCreateAPIView):
         else:
             queryset = Division.objects.all()
 
-        return queryset.distinct().order_by('main_division', 'sub_division')
+        return queryset.distinct().order_by('main_division', 'sub_division', 'id')
 
     def create(self, request, *args, **kwargs):
 

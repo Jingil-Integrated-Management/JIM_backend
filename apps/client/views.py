@@ -12,7 +12,7 @@ from .models import Client
 
 
 class ClientListCreateAPIView(ListCreateAPIView):
-    queryset = Client.objects.all().order_by('name')
+    queryset = Client.objects.all().order_by('name', 'id')
     serializer_class = ClientSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = ['is_pinned']
