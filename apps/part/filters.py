@@ -18,6 +18,8 @@ class PartFilter(django_filters.FilterSet):
         field_name='drawing', lookup_expr='created_at__gte')
     client = django_filters.NumberFilter(
         field_name='drawing', lookup_expr='client')
+    is_outsource = django_filters.BooleanFilter(
+        field_name='drawing', lookup_expr='is_outsource')
 
     class Meta:
         model = Part
