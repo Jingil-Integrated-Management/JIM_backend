@@ -19,6 +19,7 @@ class OutSourceSerializer(serializers.ModelSerializer):
 
 
 class OutSourceReadSerializer(serializers.Serializer):
+    id = IntegerField()
     material_price = CharField()
     milling_price = CharField()
     heat_treat_price = CharField()
