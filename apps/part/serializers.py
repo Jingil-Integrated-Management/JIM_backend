@@ -37,7 +37,8 @@ class PartWriteSerializer(serializers.ModelSerializer):
 
 class PartReadSerializer(serializers.Serializer):
     id = IntegerField(read_only=True)
-    division = CharField(source='division.main_division', read_only=True)
+    division = CharField(source='division.id', read_only=True)
+    maindivision = CharField(source='division.main_division', read_only=True)
     subdivision = CharField(source='division.sub_division', read_only=True)
     drawing = CharField(source='drawing.name', read_only=True)
     created_at = DateField(source='drawing.created_at', read_only=True)
