@@ -20,6 +20,8 @@ class PartFilter(django_filters.FilterSet):
         field_name='drawing', lookup_expr='client')
     is_outsource = django_filters.BooleanFilter(
         field_name='drawing', lookup_expr='is_outsource')
+    is_closed = django_filters.BooleanFilter(
+        field_name='drawing', lookup_expr='is_closed')
 
     class Meta:
         model = Part
