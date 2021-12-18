@@ -8,7 +8,7 @@ from rest_framework.fields import (BooleanField,
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
 
-from django.db.models import Sum, F, IntegerField as Int
+from django.db.models import Case, When, Sum, F, IntegerField as Int
 from django.db.models.functions import Cast
 
 from apps.client.models import Client
@@ -33,7 +33,8 @@ class DrawingReadSerializer(serializers.Serializer):
 
     def get_price(self, obj):
         return Part.objects.filter(drawing=obj).aggregate(
-            total=Sum(Cast(F('price'), output_field=Int()) * F('quantity'))
+            total=Case(When(price='', then=0), default=Sum(
+                Cast(F('price'), output_field=Int()) * F('quantity')))
         )['total']
 
     def get_type(self, obj):
