@@ -32,9 +32,9 @@ class DrawingReadSerializer(serializers.Serializer):
     part_count = SerializerMethodField(read_only=True)
 
     def get_price(self, obj):
-        return Part.objects.filter(drawing=obj).aggregate(
-            total=Case(When(price='', then=0), default=Sum(
-                Cast(F('price'), output_field=Int()) * F('quantity')))
+        return Part.objects.filter(drawing=obj).exclude(price='').aggregate(
+            total=Sum(
+                Cast(F('price'), output_field=Int()) * F('quantity'))
         )['total']
 
     def get_type(self, obj):
