@@ -69,7 +69,8 @@ class Part(models.Model):
     z = models.CharField(max_length=256)
     quantity = models.IntegerField(default=1)
 
-    price = models.CharField(max_length=256)
+    price = models.CharField(
+        max_length=256, default=None, null=True, blank=True)
     comment = models.TextField(default=None, null=True, blank=True)
 
     def __str__(self):
