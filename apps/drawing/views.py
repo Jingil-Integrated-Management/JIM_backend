@@ -59,7 +59,7 @@ class StatisticsAPIView(APIView):
                                               calendar.monthrange(int(year), int(month))[1])
         ).prefetch_related('parts')
 
-        os_info = Part.objects.exclude(outsource=None).filter(drawing__in=queryset).aggregate(
+        os_info = Part.objects.exclude(outsource=None).exclude(price='').filter(drawing__in=queryset).aggregate(
             os_revenue=Sum(
                 Cast(F('price'), output_field=IntegerField()) * F('quantity')),
             materials=Sum(Cast(F('outsource__material_price'),
@@ -72,7 +72,7 @@ class StatisticsAPIView(APIView):
                             output_field=IntegerField()) * F('quantity'))
         )
 
-        pol_info = Part.objects.filter(outsource=None).filter(drawing__in=queryset).aggregate(
+        pol_info = Part.objects.filter(outsource=None).exclude(price='').filter(drawing__in=queryset).aggregate(
             pol_revenue=Sum(
                 Cast(F('price'), output_field=IntegerField()) * F('quantity')),
         )
