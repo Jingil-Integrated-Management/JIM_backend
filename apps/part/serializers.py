@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework import fields
-from rest_framework.fields import (CharField,
+from rest_framework.fields import (BooleanField, CharField,
                                    IntegerField,
                                    FloatField,
                                    DateField,
@@ -8,6 +8,8 @@ from rest_framework.fields import (CharField,
                                    )
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import PrimaryKeyRelatedField
+
+from apps.client.models import Client
 
 from .models import Material, OutSource, Part, File
 
@@ -24,10 +26,14 @@ class OutSourceReadSerializer(serializers.Serializer):
     milling_price = CharField()
     heat_treat_price = CharField()
     wire_price = CharField()
-    material_client = StringRelatedField()
-    milling_client = StringRelatedField()
-    heat_treat_client = StringRelatedField()
-    wire_client = StringRelatedField()
+    material_client = PrimaryKeyRelatedField(read_only=True)
+    milling_client = PrimaryKeyRelatedField(read_only=True)
+    heat_treat_client = PrimaryKeyRelatedField(read_only=True)
+    wire_client = PrimaryKeyRelatedField(read_only=True)
+    material_client__name = StringRelatedField(source='material_client')
+    milling_client__name = StringRelatedField(source='material_client')
+    heat_treat_client__name = StringRelatedField(source='material_client')
+    wire_client__name = StringRelatedField(source='material_client')
 
 
 class PartWriteSerializer(serializers.ModelSerializer):
@@ -37,35 +43,30 @@ class PartWriteSerializer(serializers.ModelSerializer):
 
 
 class PartReadSerializer(serializers.Serializer):
-    id = IntegerField(read_only=True)
-    division = CharField(source='division.id', read_only=True)
-    maindivision = CharField(source='division.main_division', read_only=True)
-    subdivision = CharField(source='division.sub_division', read_only=True)
-    drawing = CharField(source='drawing.name', read_only=True)
-    created_at = DateField(source='drawing.created_at', read_only=True)
+    id = IntegerField()
     x = FloatField()
     y = FloatField()
     z = FloatField()
     quantity = IntegerField()
     price = CharField()
-    material = CharField(source='material.name')
     comment = CharField()
-    outsource = PrimaryKeyRelatedField(
-        queryset=OutSource.objects.all(), write_only=True, allow_null=True)
+    drawing = PrimaryKeyRelatedField(read_only=True)
+    division = PrimaryKeyRelatedField(read_only=True)
+    material = StringRelatedField()
+    outsource = PrimaryKeyRelatedField(read_only=True)
+    file = PrimaryKeyRelatedField(read_only=True)
+    created_at = DateField(source='drawing.created_at')
+    client__name = CharField(source='drawing.client')
+    client__id = IntegerField(source='drawing.client.id')
+    drawing__is_outsource = BooleanField(source='drawing.is_outsource')
+    file_name = StringRelatedField(source='file')
+    division__main_division = CharField(
+        source='division.main_division', read_only=True)
+    division__sub_division = CharField(
+        source='division.sub_division', read_only=True)
+    drawing__name = StringRelatedField(source='drawing')
     outsource_info = OutSourceReadSerializer(
         source='outsource', read_only=True)
-    type = SerializerMethodField()
-    file = PrimaryKeyRelatedField(
-        queryset=File.objects.all(), write_only=True, allow_null=True)
-    file_name = StringRelatedField(source='file')
-    client_name = CharField(source='drawing.client')
-    client_id = IntegerField(source='drawing.client.id')
-
-    def get_type(self, obj):
-        if obj.outsource:
-            return '제작'
-        else:
-            return '연마'
 
 
 class MaterialSerializer(serializers.ModelSerializer):
