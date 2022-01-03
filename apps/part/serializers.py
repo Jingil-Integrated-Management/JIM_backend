@@ -52,7 +52,7 @@ class PartReadSerializer(serializers.Serializer):
     comment = CharField()
     drawing = PrimaryKeyRelatedField(read_only=True)
     division = PrimaryKeyRelatedField(read_only=True)
-    material = StringRelatedField()
+    material = PrimaryKeyRelatedField(read_only=True)
     outsource = PrimaryKeyRelatedField(read_only=True)
     file = PrimaryKeyRelatedField(read_only=True)
     created_at = DateField(source='drawing.created_at')
