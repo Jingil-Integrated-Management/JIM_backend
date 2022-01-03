@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.drawing.models import Drawing
 
-from .serializers import ClientSerializer, ClientNameSerializer, ClientDashboardSerializer
+from .serializers import ClientSerializer
 from .models import Client
 
 
@@ -29,7 +29,7 @@ class ClientRetrieveUpdateAPIView(RetrieveUpdateDestroyAPIView):
 class ClientNaviListAPIView(ListAPIView):
     queryset = Client.objects.all().exclude(
         is_pinned=0).order_by('-is_pinned', 'name')
-    serializer_class = ClientNameSerializer
+    serializer_class = ClientSerializer
     pagination_class = None
 
 
@@ -37,5 +37,5 @@ class DashboardClientListAPIView(ListAPIView):
     queryset = Client.objects.filter(drawings__in=(
         Drawing.objects.prefetch_related(
             'client').filter(is_closed=False))).distinct()
-    serializer_class = ClientDashboardSerializer
+    serializer_class = ClientSerializer
     pagination_class = None

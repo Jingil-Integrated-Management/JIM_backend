@@ -8,14 +8,3 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = '__all__'
-
-
-class ClientNameSerializer(serializers.Serializer):
-    id = IntegerField()
-    name = CharField()
-    is_pinned = IntegerField()
-
-
-class ClientDashboardSerializer(serializers.Serializer):
-    id = IntegerField()
-    name = CharField()
