@@ -18,29 +18,22 @@ from .models import Drawing
 
 
 class DrawingReadSerializer(serializers.Serializer):
-    id = IntegerField(read_only=True)
+    id = IntegerField()
     name = CharField()
     created_at = DateField()
-    is_closed = BooleanField(default=False)
-    client_name = StringRelatedField(source='client')
-    client = PrimaryKeyRelatedField(queryset=Client.objects.all())
     comment = CharField(required=False)
-    is_outsource = BooleanField(read_only=True)
-
-    price = SerializerMethodField(read_only=True)
-    type = SerializerMethodField(read_only=True)
-    part_count = SerializerMethodField(read_only=True)
+    is_outsource = BooleanField()
+    client = PrimaryKeyRelatedField(read_only=True)
+    client__name = StringRelatedField(source='client')
+    price = SerializerMethodField()
+    part_count = SerializerMethodField()
+    is_closed = BooleanField()
 
     def get_price(self, obj):
-        return Part.objects.filter(drawing=obj).exclude(price='').aggregate(
+        return Part.objects.filter(drawing=obj).exclude(price='').exclude(price=None).aggregate(
             total=Sum(
                 Cast(F('price'), output_field=Int()) * F('quantity'))
         )['total']
-
-    def get_type(self, obj):
-        if obj.parts.first():
-            return obj.parts.first().get_type()
-        return None
 
     def get_part_count(self, obj):
         if obj.parts:
