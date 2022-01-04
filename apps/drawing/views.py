@@ -57,7 +57,7 @@ class StatisticsAPIView(APIView):
             created_at__gte='{}-{}-{}'.format(year, month, '01'),
             created_at__lte='{}-{}-{}'.format(year, month,
                                               calendar.monthrange(int(year), int(month))[1])
-        ).prefetch_related('parts')
+        ).filter(is_closed=True).prefetch_related('parts')
 
         os_info = Part.objects.exclude(outsource=None).exclude(price='').exclude(price=None).filter(drawing__in=queryset).aggregate(
             os_revenue=Sum(
