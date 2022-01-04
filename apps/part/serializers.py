@@ -65,6 +65,7 @@ class PartReadSerializer(serializers.Serializer):
     division__sub_division = CharField(
         source='division.sub_division', read_only=True)
     drawing__name = StringRelatedField(source='drawing')
+    drawing__is_outsource = BooleanField(source='drawing.is_outsource')
     outsource_info = OutSourceReadSerializer(
         source='outsource', read_only=True)
 
