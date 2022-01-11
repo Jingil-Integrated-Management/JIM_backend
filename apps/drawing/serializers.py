@@ -45,3 +45,7 @@ class DrawingWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Drawing
         fields = '__all__'
+
+
+class DrawingSearchSerializer(serializers.Serializer):
+    name = CharField()

@@ -17,7 +17,7 @@ from apps.client.models import Client
 
 from apps.part.models import Part
 
-from .serializers import DrawingReadSerializer, DrawingWriteSerializer
+from .serializers import DrawingReadSerializer, DrawingWriteSerializer, DrawingSearchSerializer
 from .models import Drawing
 from .filters import DrawingFilter
 
@@ -46,6 +46,15 @@ class DrawingRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
             return DrawingWriteSerializer
         else:
             return DrawingReadSerializer
+
+
+class DrawingNameSearchAPIView(ListAPIView):
+    pagination_class = None
+    serializer_class = DrawingSearchSerializer
+    queryset = Drawing.objects.all().order_by('-created_at', 'id')
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['client']
+    search_fields = ['name', ]
 
 
 class StatisticsAPIView(APIView):
