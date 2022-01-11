@@ -51,7 +51,7 @@ class DrawingRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 class DrawingNameSearchAPIView(ListAPIView):
     pagination_class = None
     serializer_class = DrawingSearchSerializer
-    queryset = Drawing.objects.all().order_by('-created_at', 'id')
+    queryset = Drawing.objects.all().values('name').distinct()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['client']
     search_fields = ['name', ]
