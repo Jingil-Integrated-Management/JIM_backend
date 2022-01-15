@@ -3,3 +3,6 @@
 db.sqlite3
 .DS_Store
 uploads
+*.xlsx
+/static
+__pycache__
