@@ -31,9 +31,9 @@ class OutSourceReadSerializer(serializers.Serializer):
     heat_treat_client = PrimaryKeyRelatedField(read_only=True)
     wire_client = PrimaryKeyRelatedField(read_only=True)
     material_client__name = StringRelatedField(source='material_client')
-    milling_client__name = StringRelatedField(source='material_client')
-    heat_treat_client__name = StringRelatedField(source='material_client')
-    wire_client__name = StringRelatedField(source='material_client')
+    milling_client__name = StringRelatedField(source='milling_client')
+    heat_treat_client__name = StringRelatedField(source='heat_treat_client')
+    wire_client__name = StringRelatedField(source='wire_client')
 
 
 class PartWriteSerializer(serializers.ModelSerializer):
